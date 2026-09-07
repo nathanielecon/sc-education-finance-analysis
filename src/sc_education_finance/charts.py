@@ -33,7 +33,10 @@ def _finish(figure: plt.Figure, output: Path, caption: str) -> None:
 
 
 def rpp_trends(frame: pd.DataFrame, output: Path, *, start_year: int) -> None:
-    data = frame[frame["year"] >= start_year].copy()
+    data = frame[
+        (frame["metric"] == "regional_price_parity_all_items")
+        & (frame["year"] >= start_year)
+    ].copy()
     figure, axis = plt.subplots(figsize=(11, 7))
     endpoints: list[tuple[str, int, float, str]] = []
     for state, group in data.groupby("geography", sort=True):
@@ -91,7 +94,9 @@ def rpp_trends(frame: pd.DataFrame, output: Path, *, start_year: int) -> None:
 
 
 def sc_peer_comparison(frame: pd.DataFrame, output: Path, *, year: int) -> None:
-    data = frame[frame["year"] == year].sort_values("value")
+    data = frame[
+        (frame["metric"] == "regional_price_parity_all_items") & (frame["year"] == year)
+    ].sort_values("value")
     colors = [BLUE if state == "South Carolina" else GRAY for state in data["geography"]]
     figure, axis = plt.subplots(figsize=(10, 7))
     bars = axis.barh(data["geography"], data["value"], color=colors)

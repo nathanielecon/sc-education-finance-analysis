@@ -6,7 +6,9 @@ The public release uses BEA regional price parity data through 2024.
 
 It covers South Carolina and 11 peer states named in `config.toml`.
 
-The analysis uses the BEA all-items series with `LineCode` 1.
+The normalized output includes all five BEA RPP series.
+
+The peer rankings and figures use the all-items series with `LineCode` 1.
 
 An RPP of 100 equals the national price level for that year.
 
@@ -23,6 +25,10 @@ South Carolina ranked fifth-highest among the 12 peer states.
 Its RPP increased by 0.518 points between 2014 and 2024.
 
 That change equals 0.56% when the 2014 value is the denominator.
+
+South Carolina's 2024 RPP for services other than housing and utilities was 98.284.
+
+That value comes from `LineCode` 5.
 
 ## Peer comparison
 

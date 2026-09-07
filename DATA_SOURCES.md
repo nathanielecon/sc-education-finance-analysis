@@ -20,7 +20,8 @@ BEA requests attribution.
 - Rights: [BEA copyright FAQ](https://www.bea.gov/help/faq/147)
 - Review date: 2026-09-07
 - Public snapshot: `data/source/bea-rpp-state-2008-2024.csv`
-- Published series: all-items state RPP, `LineCode` 1
+- Published series: all-items, goods, housing services, utility services, and other services
+- Figure series: all-items state RPP, `LineCode` 1
 
 ## Adding a source
 
