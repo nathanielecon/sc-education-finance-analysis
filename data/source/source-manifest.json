@@ -5,10 +5,22 @@
       "publisher": "U.S. Bureau of Economic Analysis",
       "data_url": "https://apps.bea.gov/regional/zip/SARPP.zip",
       "rights_url": "https://www.bea.gov/help/faq/147",
-      "retrieved_at": "2026-09-07T14:36:32.226777+00:00",
+      "retrieved_at": "2026-09-07T15:53:45.241331+00:00",
       "release": "2024",
-      "sha256": "b1de065707f2301dd7ec9d9164d117a29f5abd5345d2f4ce7d57cb73fd33b129",
+      "source_sha256": "38713c6224c4c26ae020ffecd4549b82dca84f43d34f93dfdb43f4070cf011da",
+      "snapshot_sha256": "b1de065707f2301dd7ec9d9164d117a29f5abd5345d2f4ce7d57cb73fd33b129",
       "content_type": "application/x-zip-compressed"
+    },
+    {
+      "source_id": "rfa",
+      "publisher": "South Carolina Revenue and Fiscal Affairs Office",
+      "data_url": "https://www.rfa.sc.gov/media/11403",
+      "rights_url": "https://www.rfa.sc.gov/privacy-and-disclaimers",
+      "retrieved_at": "2026-09-07T15:53:45.712245+00:00",
+      "release": "2025-11-19",
+      "source_sha256": "0f8a0e37672f8e9b9c7f412b9573134a1bb43975eb231bfec2c4607a5a5feee9",
+      "snapshot_sha256": "eb72ae566113d491906633a6fc9f6e2d6316f29d0300f900bf278b125161f4fb",
+      "content_type": "application/pdf"
     }
   ]
 }

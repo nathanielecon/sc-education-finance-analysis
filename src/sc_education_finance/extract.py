@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import pandas as pd
 
+from .adapters import read_pdf_text
 from .metrics import normalize_state
 from .records import Record, validate_records
 
@@ -14,6 +16,188 @@ RPP_METRICS = {
     4: "regional_price_parity_services_utilities",
     5: "regional_price_parity_services_other",
 }
+
+RFA_SOURCE_NAME = "South Carolina Revenue and Fiscal Affairs Office teacher salary survey"
+RFA_METRIC = "average_teacher_salary"
+RFA_UNIT = "current dollars"
+RFA_YEARS = list(range(2020, 2028))
+RFA_ROW_NAMES = (
+    "Alabama",
+    "Arkansas",
+    "Florida",
+    "Georgia",
+    "Kentucky",
+    "Louisiana",
+    "Mississippi",
+    "N. Carolina",
+    "Tennessee",
+    "Virginia",
+    "W. Virginia",
+)
+
+
+def _fiscal_period(year: int) -> str:
+    return f"FY {year - 1}-{str(year)[-2:]}"
+
+
+def _rfa_cells(line: str) -> list[tuple[float, bool]]:
+    return [
+        (float(value.replace(",", "")), revised == "r")
+        for value, revised in re.findall(r"(\d{1,3}(?:,\d{3})+)(?:\s+(r))?", line)
+    ]
+
+
+def _find_line(text: str, prefix: str) -> str:
+    matches = [line.strip() for line in text.splitlines() if line.strip().startswith(prefix)]
+    if len(matches) != 1:
+        raise ValueError(f"RFA source layout changed for row {prefix!r}.")
+    return matches[0]
+
+
+def extract_rfa_salary_pdf(
+    path: Path, *, source_release: str, peer_states: set[str]
+) -> list[Record]:
+    """Extract selected facts from the RFA teacher salary survey."""
+    text = read_pdf_text(path)
+    required_markers = (
+        "FY 19-20 FY 20-21 FY 21-22 FY 22-23 FY 23-24 FY 24-25 FY 25-26 FY 26-27",
+        "r - Revised since previous estimate.",
+        "Updated 11/19/2025 to include SC actual salary figure for FY 2024-25",
+    )
+    missing_markers = [marker for marker in required_markers if marker not in text]
+    if missing_markers:
+        raise ValueError(f"RFA source layout changed; missing markers: {missing_markers}")
+
+    records: list[Record] = []
+    sc_cells = _rfa_cells(_find_line(text, "South Carolina Actual"))
+    if len(sc_cells) != 6:
+        raise ValueError("RFA South Carolina row must contain six actual values.")
+    for year, (value, revised) in zip(range(2020, 2026), sc_cells, strict=True):
+        records.append(
+            Record(
+                source=RFA_SOURCE_NAME,
+                source_release=source_release,
+                geography="South Carolina",
+                year=year,
+                period=_fiscal_period(year),
+                metric=RFA_METRIC,
+                value=value,
+                unit=RFA_UNIT,
+                status="actual",
+                is_revised=revised,
+                rpp_year=None,
+            )
+        )
+
+    average_cells = _rfa_cells(_find_line(text, "SE Avg. from Survey"))
+    if len(average_cells) != 8:
+        raise ValueError("RFA Southeastern average row must contain eight values.")
+    for year, (value, revised) in zip(RFA_YEARS, average_cells, strict=True):
+        records.append(
+            Record(
+                source=RFA_SOURCE_NAME,
+                source_release=source_release,
+                geography="Southeastern average",
+                year=year,
+                period=_fiscal_period(year),
+                metric=RFA_METRIC,
+                value=value,
+                unit=RFA_UNIT,
+                status="estimated" if year >= 2025 else "actual",
+                is_revised=revised,
+                rpp_year=None,
+            )
+        )
+
+    found_peers: set[str] = set()
+    for row_name in RFA_ROW_NAMES:
+        geography = normalize_state(row_name)
+        cells = _rfa_cells(_find_line(text, row_name))
+        if len(cells) != 8:
+            raise ValueError(f"RFA row for {geography} must contain eight values.")
+        found_peers.add(geography)
+        for year, (value, revised) in zip((2026, 2027), cells[-2:], strict=True):
+            records.append(
+                Record(
+                    source=RFA_SOURCE_NAME,
+                    source_release=source_release,
+                    geography=geography,
+                    year=year,
+                    period=_fiscal_period(year),
+                    metric=RFA_METRIC,
+                    value=value,
+                    unit=RFA_UNIT,
+                    status="estimated",
+                    is_revised=revised,
+                    rpp_year=None,
+                )
+            )
+    if found_peers != peer_states:
+        raise ValueError(
+            f"RFA peer-state coverage changed: {sorted(peer_states - found_peers)}"
+        )
+    validate_records(records)
+    return records
+
+
+def load_rfa_salary_snapshot(
+    path: Path, *, source_release: str, peer_states: set[str]
+) -> list[Record]:
+    """Validate the committed snapshot of selected RFA facts."""
+    frame = pd.read_csv(path, dtype=str, keep_default_na=False)
+    expected_columns = [
+        "source",
+        "source_release",
+        "geography",
+        "year",
+        "period",
+        "metric",
+        "value",
+        "unit",
+        "status",
+        "is_revised",
+        "rpp_year",
+    ]
+    if frame.columns.tolist() != expected_columns:
+        raise ValueError("The selected RFA snapshot schema changed.")
+
+    records: list[Record] = []
+    for row in frame.to_dict(orient="records"):
+        if row["source"] != RFA_SOURCE_NAME or row["source_release"] != source_release:
+            raise ValueError("The selected RFA snapshot has invalid source metadata.")
+        if row["metric"] != RFA_METRIC or row["unit"] != RFA_UNIT:
+            raise ValueError("The selected RFA snapshot has an unexpected metric or unit.")
+        revised_value = row["is_revised"].strip().lower()
+        if revised_value not in {"true", "false"}:
+            raise ValueError("The selected RFA snapshot has an invalid revision flag.")
+        records.append(
+            Record(
+                source=row["source"],
+                source_release=row["source_release"],
+                geography=normalize_state(row["geography"]),
+                year=int(row["year"]),
+                period=row["period"],
+                metric=row["metric"],
+                value=float(row["value"]),
+                unit=row["unit"],
+                status=row["status"],
+                is_revised=revised_value == "true",
+                rpp_year=int(row["rpp_year"]) if row["rpp_year"] else None,
+            )
+        )
+
+    validate_records(records)
+    expected_keys = {
+        *(('South Carolina', year) for year in range(2020, 2026)),
+        *(('Southeastern average', year) for year in RFA_YEARS),
+        *((state, year) for state in peer_states for year in (2026, 2027)),
+    }
+    found_keys = {(record.geography, record.year) for record in records}
+    if found_keys != expected_keys:
+        missing = sorted(expected_keys - found_keys)
+        extra = sorted(found_keys - expected_keys)
+        raise ValueError(f"RFA selected-fact coverage changed; missing={missing}, extra={extra}")
+    return records
 
 
 def extract_bea_rpp(
@@ -65,10 +249,13 @@ def extract_bea_rpp(
                         source_release=source_release,
                         geography=geography,
                         year=year,
+                        period=str(year),
                         metric=metric,
                         value=value,
                         unit="index (United States = 100)",
                         status="actual",
+                        is_revised=False,
+                        rpp_year=year,
                     )
                 )
     validate_records(

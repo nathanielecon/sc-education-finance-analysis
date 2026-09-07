@@ -11,22 +11,29 @@ from PIL import Image
 from .charts import render_all
 from .config import load_config, resolve_path
 from .download import fetch_sources, sha256
-from .extract import extract_bea_rpp
-from .metrics import competition_ranks
-from .rights import assert_publication_allowed
+from .extract import RFA_METRIC, extract_bea_rpp, load_rfa_salary_snapshot
+from .metrics import competition_ranks, purchasing_power
+from .rights import assert_source_use_allowed
 
 OUTPUTS = [
     "data/curated/observations.csv",
     "data/curated/south-carolina-peer-comparison.csv",
+    "data/curated/teacher-salary-peer-comparison.csv",
     "data/curated/lineage.json",
     "docs/assets/figures/southeastern-rpp-trends.svg",
     "docs/assets/figures/southeastern-rpp-trends.png",
     "docs/assets/figures/south-carolina-peer-rpp.svg",
     "docs/assets/figures/south-carolina-peer-rpp.png",
+    "docs/assets/figures/salary-trends.svg",
+    "docs/assets/figures/salary-trends.png",
+    "docs/assets/figures/peer-salary-estimates.svg",
+    "docs/assets/figures/peer-salary-estimates.png",
+    "docs/assets/figures/adjusted-salary-comparison.svg",
+    "docs/assets/figures/adjusted-salary-comparison.png",
 ]
 
 
-def _validate_manifest(path: Path, snapshot: Path) -> dict[str, Any]:
+def _validate_manifest(path: Path, snapshots: dict[str, Path]) -> dict[str, dict[str, Any]]:
     if not path.exists():
         raise ValueError("The approved source manifest is missing. Run fetch first.")
     raw_manifest: object = json.loads(path.read_text(encoding="utf-8"))
@@ -34,35 +41,54 @@ def _validate_manifest(path: Path, snapshot: Path) -> dict[str, Any]:
         raise ValueError("The approved source manifest is malformed.")
     manifest: dict[str, Any] = raw_manifest
     entries = manifest.get("sources", [])
-    if not isinstance(entries, list) or len(entries) != 1 or not isinstance(entries[0], dict):
-        raise ValueError("The public source manifest must contain one source record.")
-    entry: dict[str, Any] = entries[0]
-    if entry.get("source_id") != "bea":
-        raise ValueError("The public source manifest must contain only the approved BEA source.")
-    if entry.get("sha256") != sha256(snapshot):
-        raise ValueError("The BEA source snapshot does not match its manifest hash.")
-    return entry
+    if not isinstance(entries, list) or not all(isinstance(entry, dict) for entry in entries):
+        raise ValueError("The public source manifest must contain source records.")
+    indexed = {str(entry.get("source_id")): entry for entry in entries}
+    if set(indexed) != set(snapshots):
+        raise ValueError("The public source manifest does not match the approved snapshots.")
+    for source_id, snapshot in snapshots.items():
+        if indexed[source_id].get("snapshot_sha256") != sha256(snapshot):
+            raise ValueError(f"The {source_id} snapshot does not match its manifest hash.")
+        source_hash = str(indexed[source_id].get("source_sha256", ""))
+        if len(source_hash) != 64:
+            raise ValueError(f"The {source_id} source hash is missing or malformed.")
+    return indexed
 
 
 def build(root: Path, destination: Path | None = None) -> list[Path]:
-    """Validate rights, normalize BEA data, and render approved outputs."""
+    """Validate sources, normalize data, and render the committed outputs."""
     config = load_config(root)
-    source = assert_publication_allowed(config, "bea", derivative=True)
+    bea_source = assert_source_use_allowed(config, "bea", use="factual_extraction")
+    assert_source_use_allowed(config, "bea", use="derivative_visualization")
+    rfa_source = assert_source_use_allowed(config, "rfa", use="factual_extraction")
+    assert_source_use_allowed(config, "rfa", use="derivative_visualization")
     source_dir = resolve_path(root, config["paths"]["source"])
-    snapshot = source_dir / str(source["snapshot"])
-    if not snapshot.exists():
-        raise ValueError("The approved BEA snapshot is missing. Run fetch first.")
-    manifest_entry = _validate_manifest(source_dir / "source-manifest.json", snapshot)
+    snapshots = {
+        "bea": source_dir / str(bea_source["snapshot"]),
+        "rfa": source_dir / str(rfa_source["snapshot"]),
+    }
+    missing = [source_id for source_id, path in snapshots.items() if not path.exists()]
+    if missing:
+        raise ValueError(f"Approved source snapshots are missing: {missing}. Run fetch first.")
+    manifest_entries = _validate_manifest(source_dir / "source-manifest.json", snapshots)
 
     first_year, last_year = (int(value) for value in config["analysis"]["years"])
     peers = set(config["analysis"]["peer_states"])
-    records = extract_bea_rpp(
-        snapshot,
-        source_release=str(source["release"]),
+    bea_records = extract_bea_rpp(
+        snapshots["bea"],
+        source_release=str(bea_source["release"]),
         peers=peers,
         years=range(first_year, last_year + 1),
     )
-    frame = pd.DataFrame([record.as_dict() for record in records]).sort_values(
+    salary_peers = set(config["analysis"]["salary_peer_states"])
+    rfa_records = load_rfa_salary_snapshot(
+        snapshots["rfa"],
+        source_release=str(rfa_source["release"]),
+        peer_states=salary_peers,
+    )
+    frame = pd.DataFrame(
+        [record.as_dict() for record in [*bea_records, *rfa_records]]
+    ).sort_values(
         ["metric", "geography", "year"]
     )
 
@@ -91,20 +117,72 @@ def build(root: Path, destination: Path | None = None) -> list[Path]:
         float_format="%.3f",
     )
 
+    estimate_years = {int(value) for value in config["analysis"]["salary_estimate_years"]}
+    salary_estimates = frame[
+        (frame["metric"] == RFA_METRIC)
+        & (frame["geography"].isin(salary_peers))
+        & (frame["year"].isin(estimate_years))
+    ][
+        [
+            "geography",
+            "year",
+            "period",
+            "value",
+            "status",
+            "is_revised",
+            "source_release",
+        ]
+    ].rename(columns={"value": "nominal_salary", "source_release": "salary_release"})
+    rpp_year = int(config["analysis"]["salary_rpp_year"])
+    rpp = frame[
+        (frame["metric"] == "regional_price_parity_all_items")
+        & (frame["year"] == rpp_year)
+        & (frame["geography"].isin(salary_peers))
+    ][["geography", "value", "source_release"]].rename(
+        columns={"value": "rpp", "source_release": "rpp_release"}
+    )
+    salary_comparison = salary_estimates.merge(rpp, on="geography", validate="many_to_one")
+    expected_rows = len(salary_peers) * len(estimate_years)
+    if len(salary_comparison) != expected_rows:
+        raise ValueError("Teacher salary and RPP peer coverage is incomplete.")
+    salary_comparison["rpp_year"] = rpp_year
+    salary_comparison["purchasing_power_salary"] = salary_comparison.apply(
+        lambda row: purchasing_power(float(row["nominal_salary"]), float(row["rpp"])),
+        axis=1,
+    )
+    salary_comparison = salary_comparison.sort_values(["year", "geography"])
+    salary_comparison.to_csv(
+        curated / "teacher-salary-peer-comparison.csv",
+        index=False,
+        lineterminator="\n",
+        float_format="%.3f",
+    )
+
     lineage = {
-        "source_id": "bea",
-        "source_release": str(source["release"]),
-        "source_sha256": manifest_entry["sha256"],
-        "rights_url": source["rights_url"],
-        "approved_for_public_build": True,
+        "sources": [
+            {
+                "source_id": source_id,
+                "source_release": str(source["release"]),
+                "source_sha256": manifest_entries[source_id]["source_sha256"],
+                "snapshot_sha256": manifest_entries[source_id]["snapshot_sha256"],
+                "rights_url": source["rights_url"],
+                "approved_for_public_build": True,
+            }
+            for source_id, source in (("bea", bea_source), ("rfa", rfa_source))
+        ]
     }
     with (curated / "lineage.json").open("w", encoding="utf-8", newline="\n") as handle:
         handle.write(json.dumps(lineage, indent=2) + "\n")
     render_all(
         frame,
+        salary_comparison,
         figures,
         start_year=int(config["analysis"]["trend_start_year"]),
         latest_year=last_year,
+        salary_latest_regional_actual_year=int(
+            config["analysis"]["salary_latest_regional_actual_year"]
+        ),
+        salary_rpp_year=rpp_year,
     )
     return [base / path for path in OUTPUTS]
 

@@ -1,7 +1,20 @@
 {
-  "source_id": "bea",
-  "source_release": "2024",
-  "source_sha256": "b1de065707f2301dd7ec9d9164d117a29f5abd5345d2f4ce7d57cb73fd33b129",
-  "rights_url": "https://www.bea.gov/help/faq/147",
-  "approved_for_public_build": true
+  "sources": [
+    {
+      "source_id": "bea",
+      "source_release": "2024",
+      "source_sha256": "38713c6224c4c26ae020ffecd4549b82dca84f43d34f93dfdb43f4070cf011da",
+      "snapshot_sha256": "b1de065707f2301dd7ec9d9164d117a29f5abd5345d2f4ce7d57cb73fd33b129",
+      "rights_url": "https://www.bea.gov/help/faq/147",
+      "approved_for_public_build": true
+    },
+    {
+      "source_id": "rfa",
+      "source_release": "2025-11-19",
+      "source_sha256": "0f8a0e37672f8e9b9c7f412b9573134a1bb43975eb231bfec2c4607a5a5feee9",
+      "snapshot_sha256": "eb72ae566113d491906633a6fc9f6e2d6316f29d0300f900bf278b125161f4fb",
+      "rights_url": "https://www.rfa.sc.gov/privacy-and-disclaimers",
+      "approved_for_public_build": true
+    }
+  ]
 }

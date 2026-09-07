@@ -17,10 +17,10 @@ It is not legal advice.
 ## Rights and website policies
 
 - [ ] Read the dataset license, copyright notice, website terms, and linked policies.
-- [ ] Record an affirmative basis for downloading, storing, transforming, and publishing the material.
+- [ ] Record the basis for each permitted use, including factual extraction and original analysis.
 - [ ] Confirm attribution, notice, share-alike, noncommercial, and modification conditions.
 - [ ] Confirm that the review does not treat public-record status or an accessible link as a reuse license.
-- [ ] Add or update the deny-by-default decision in `config.toml`.
+- [ ] Record separate decisions for download, factual extraction, raw redistribution, and derivative visualization in `config.toml`.
 
 ## Privacy, confidentiality, and security
 
