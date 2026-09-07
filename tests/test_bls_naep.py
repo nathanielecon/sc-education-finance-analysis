@@ -76,3 +76,10 @@ def test_naep_caveats_are_published() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "may not be statistically significant" in text
     assert "NAEP Proficient is not the same as state-defined grade-level proficiency" in text
+
+
+def test_naep_svg_uses_vector_cells() -> None:
+    svg = (ROOT / "docs/assets/figures/naep-regional-comparison.svg").read_text(
+        encoding="utf-8"
+    )
+    assert "data:image/png" not in svg

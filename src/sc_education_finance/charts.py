@@ -303,7 +303,14 @@ def naep_heatmap(frame: pd.DataFrame, output: Path) -> None:
         states, metric_order
     ]
     figure, axis = plt.subplots(figsize=(10.5, 8.5))
-    image = axis.imshow(values.to_numpy(), cmap="viridis", aspect="auto", vmin=15, vmax=50)
+    axis.pcolormesh(
+        values.to_numpy(dtype=float),
+        cmap="viridis",
+        vmin=15,
+        vmax=50,
+        shading="nearest",
+    )
+    axis.set_ylim(len(states) - 0.5, -0.5)
     axis.set_xticks(range(len(labels)), labels=labels)
     axis.set_yticks(range(len(states)), labels=states)
     axis.tick_params(top=True, bottom=False, labeltop=True, labelbottom=False)
@@ -332,8 +339,17 @@ def naep_heatmap(frame: pd.DataFrame, output: Path) -> None:
         fontweight="bold",
         pad=42,
     )
-    colorbar = figure.colorbar(image, ax=axis, fraction=0.035, pad=0.04)
-    colorbar.set_label("Percent At or Above NAEP Proficient")
+    axis.text(
+        1.02,
+        0.5,
+        "Purple = Lower Percentage  ·  Yellow = Higher Percentage",
+        transform=axis.transAxes,
+        rotation=90,
+        ha="left",
+        va="center",
+        fontsize=8,
+        color="#444444",
+    )
     _finish(
         figure,
         output,
