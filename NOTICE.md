@@ -14,4 +14,12 @@ The repository also includes selected factual values from the South Carolina Rev
 
 The RFA source PDF, table, chart, and prose are not included.
 
+The repository includes one attributed South Carolina estimate from the National Education Association.
+
+The NEA report, table, graphics, design, and prose are not included.
+
+The repository includes one attributed teacher salary schedule input from the South Carolina General Assembly.
+
+It also includes public aggregate data from the U.S. Bureau of Labor Statistics and the National Center for Education Statistics.
+
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for details.

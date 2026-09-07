@@ -25,6 +25,36 @@ The salary facts remain attributed to RFA. The repository's MIT License applies 
 - [RFA FY 2026-27 survey](https://www.rfa.sc.gov/media/11403)
 - [RFA privacy statement and disclaimers](https://rfa.sc.gov/page/privacy-statement-disclaimers)
 
+## National Education Association
+
+The project cites one South Carolina salary estimate from table E-6 of NEA's August 2026 report. The report, source table, prose, graphics, and design are not included. The repository's MIT License does not apply to the NEA publication.
+
+- [NEA August 2026 report](https://www.nea.org/sites/default/files/2026-08/2026-rankings-and-estimates-report-august-update.pdf)
+- [NEA terms of use](https://www.nea.org/terms-use)
+
+## South Carolina General Assembly and Department of Education
+
+The project cites the enacted `$2,000` increase to every cell in the FY 2026–27 state minimum teacher salary schedule. The budget text and final salary schedule are not included.
+
+- [FY 2026–27 budget record](https://www.scstatehouse.gov/sess126_2025-2026/appropriations2026/gab5126.php)
+- [SCDE teacher salary schedules](https://ed.sc.gov/finance/financial-data/historical-data/teacher-salary-schedules/)
+
+## U.S. Bureau of Labor Statistics
+
+This project uses May 2025 Occupational Employment and Wage Statistics. BLS states that its published material is public domain, except identified third-party photographs and illustrations. BLS requests attribution. No BLS logo is used.
+
+- [BLS OEWS tables](https://www.bls.gov/oes/tables.htm)
+- [BLS copyright information](https://www.bls.gov/opub/copyright-information.htm)
+
+BLS cannot vouch for analyses made after its data are retrieved.
+
+## National Center for Education Statistics
+
+This project uses aggregate 2024 NAEP results from the public Data Service. It does not include restricted-use data or identifiable student or school records.
+
+- [NAEP Data Service](https://www.nationsreportcard.gov/api_documentation.aspx)
+- [U.S. Department of Education copyright status](https://www.ed.gov/about/ed-overview/required-notices/website-policies/copyright-status-notice)
+
 ## Dependencies
 
 Python dependencies retain their own licenses.

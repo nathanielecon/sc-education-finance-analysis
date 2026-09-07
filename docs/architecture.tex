@@ -18,11 +18,11 @@
   fail/.style={-{Stealth[length=3mm]}, thick, dashed, draw=gold!80!black}
 ]
 \node[gate] (rights) {Rights registry\\fail closed};
-\node[stage, right=of rights] (acquire) {Acquire\\approved ZIP};
+\node[stage, right=of rights] (acquire) {Acquire\\approved files and APIs};
 \node[gate, right=of acquire] (validate) {Validate\\hash and schema};
 \node[stage, right=of validate] (normalize) {Normalize\\long-form records};
 \node[stage, right=of normalize] (analyze) {Analyze\\auditable metrics};
-\node[stage, right=of analyze] (publish) {Publish\\CSV, SVG, PNG};
+\node[stage, right=of analyze] (publish) {Publish\\tables and figures};
 \node[stage, below=of validate, fill=gold!12] (stop) {Fail fast\\layout or value drift};
 \draw[flow] (rights) -- node[above, font=\footnotesize]{approved} (acquire);
 \draw[flow] (acquire) -- (validate);

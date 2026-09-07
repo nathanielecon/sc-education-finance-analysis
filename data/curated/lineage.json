@@ -12,9 +12,50 @@
       "source_id": "rfa",
       "source_release": "2025-11-19",
       "source_sha256": "0f8a0e37672f8e9b9c7f412b9573134a1bb43975eb231bfec2c4607a5a5feee9",
-      "snapshot_sha256": "ee981b6e25b57134688d8bbfeb1396b54516115b1e7c3bb5fcabb4b2464f1568",
+      "snapshot_sha256": "c963fccace95689677c1d3d5adf7db9233aa741c283674f654a81600ffe1df91",
       "rights_url": "https://rfa.sc.gov/page/privacy-statement-disclaimers",
       "approved_for_public_build": true
+    },
+    {
+      "source_id": "bls",
+      "source_release": "May 2025, release 2025A01, published 2026-05-15",
+      "source_sha256": "4c279f60b2b92cbbf2ca3a972f0f705e88fa785b752a66e6a31200886565a90f",
+      "snapshot_sha256": "e2e29bc77c97b59f54e66ed8733e0d1bb51fa8863f2f0b52f7a2c3a17b673776",
+      "rights_url": "https://www.bls.gov/opub/copyright-information.htm",
+      "approved_for_public_build": true
+    },
+    {
+      "source_id": "naep",
+      "source_release": "2024 assessment",
+      "source_sha256": "de444e928be690af2c28b4d2ab844b9bae20a7253252b71be2a26de12eb01b5f",
+      "snapshot_sha256": "cc6225f3cafdcfc0e12c3db31727008903dc2b9d3279b7ce568277e41eb0d4cc",
+      "rights_url": "https://www.ed.gov/about/ed-overview/required-notices/website-policies/copyright-status-notice",
+      "approved_for_public_build": true
+    },
+    {
+      "source_id": "nea",
+      "source_release": "2026-08",
+      "source_sha256": "not-downloaded",
+      "snapshot_sha256": "19b51eff0c76daccba26b4e38b5128d5ac4f158bb919da5eb2b5d1ef8515ceec",
+      "rights_url": "https://www.nea.org/terms-use",
+      "approved_for_public_build": true
+    },
+    {
+      "source_id": "sc_budget",
+      "source_release": "FY 2026-27, ratified 2026-08-11",
+      "source_sha256": "not-downloaded",
+      "snapshot_sha256": "53379bf3560facc4701b5984a260744e988c977602ad3b39786238c590922ded",
+      "rights_url": "https://www.scstatehouse.gov/studentpage/What/disclaim.shtml",
+      "approved_for_public_build": true
+    }
+  ],
+  "supporting_sources": [
+    {
+      "source_id": "scde_salary_schedule",
+      "source_release": "FY 2026-27",
+      "rights_url": "https://www.ed.sc.gov/privacy-legal/",
+      "approved_for_public_build": true,
+      "use": "corroborating link only"
     }
   ]
 }
