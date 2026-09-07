@@ -11,7 +11,13 @@ from sc_education_finance.metrics import (
 
 @pytest.mark.parametrize(
     ("raw", "expected"),
-    [("North", "North Carolina"), ("South", "South Carolina"), ("West", "West Virginia")],
+    [
+        ("North", "North Carolina"),
+        ("N. Carolina", "North Carolina"),
+        ("South", "South Carolina"),
+        ("West", "West Virginia"),
+        ("W. Virginia", "West Virginia"),
+    ],
 )
 def test_normalize_state(raw: str, expected: str) -> None:
     assert normalize_state(raw) == expected

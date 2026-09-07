@@ -27,7 +27,7 @@ jobs:
       - name: Validate Markdown links and assets
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --offline --no-progress README.md DATA_SOURCES.md SOURCE_EXCLUSIONS.md THIRD_PARTY_NOTICES.md LEGAL_POLICY_REVIEW.md docs/findings.md
+          args: --offline --no-progress README.md DATA_SOURCES.md SOURCE_EXCLUSIONS.md THIRD_PARTY_NOTICES.md NOTICE.md LEGAL_POLICY_REVIEW.md docs/findings.md
 
   secrets:
     runs-on: ubuntu-latest

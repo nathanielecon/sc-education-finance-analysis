@@ -36,13 +36,26 @@ def test_south_carolina_2024_services_other_spot_check() -> None:
 
 
 def test_source_snapshot_matches_manifest() -> None:
-    snapshot = ROOT / "data/source/bea-rpp-state-2008-2024.csv"
     manifest = json.loads((ROOT / "data/source/source-manifest.json").read_text(encoding="utf-8"))
-    assert manifest["sources"][0]["sha256"] == sha256(snapshot)
+    entries = {entry["source_id"]: entry for entry in manifest["sources"]}
+    snapshots = {
+        "bea": ROOT / "data/source/bea-rpp-state-2008-2024.csv",
+        "rfa": ROOT / "data/source/rfa-teacher-salary-selected.csv",
+    }
+    assert set(entries) == set(snapshots)
+    for source_id, snapshot in snapshots.items():
+        assert entries[source_id]["snapshot_sha256"] == sha256(snapshot)
+        assert len(entries[source_id]["source_sha256"]) == 64
+    assert (
+        entries["rfa"]["source_sha256"]
+        == "0f8a0e37672f8e9b9c7f412b9573134a1bb43975eb231bfec2c4607a5a5feee9"
+    )
 
 
-def test_public_registry_approves_only_bea() -> None:
-    assert approved_source_ids(load_config(ROOT)) == ["bea"]
+def test_public_registry_approves_bea_and_limited_rfa_use() -> None:
+    config = load_config(ROOT)
+    assert approved_source_ids(config, use="factual_extraction") == ["bea", "rfa"]
+    assert approved_source_ids(config, use="raw_redistribution") == ["bea"]
 
 
 def test_readme_has_supported_engineering_terms() -> None:
@@ -55,22 +68,59 @@ def test_readme_has_supported_engineering_terms() -> None:
         "test automation",
         "CI/CD",
         "GitHub Actions",
-        "policy as code",
     ):
         assert term in text
-    assert "agentic AI project" not in text.lower()
+    for path in (ROOT / "README.md", ROOT / "docs/findings.md"):
+        lowered = path.read_text(encoding="utf-8").lower()
+        assert "agentic ai" not in lowered
+        assert "recruiter-facing" not in lowered
+        assert "recruiter facing" not in lowered
+        assert "case study" not in lowered
+
+
+@pytest.mark.parametrize(
+    ("geography", "year", "value", "status"),
+    [
+        ("South Carolina", 2025, 64_050, "actual"),
+        ("Southeastern average", 2025, 61_749, "estimated"),
+        ("Southeastern average", 2026, 63_085, "estimated"),
+        ("Southeastern average", 2027, 65_545, "estimated"),
+        ("Virginia", 2027, 78_987, "estimated"),
+        ("Mississippi", 2027, 56_314, "estimated"),
+    ],
+)
+def test_rfa_salary_spot_checks(
+    geography: str, year: int, value: int, status: str
+) -> None:
+    frame = pd.read_csv(ROOT / "data/curated/observations.csv")
+    row = frame[
+        (frame["geography"] == geography)
+        & (frame["year"] == year)
+        & (frame["metric"] == "average_teacher_salary")
+    ]
+    assert len(row) == 1
+    assert row.iloc[0]["value"] == value
+    assert row.iloc[0]["status"] == status
+
+
+def test_salary_adjustments_use_2024_rpp_for_later_estimates() -> None:
+    frame = pd.read_csv(ROOT / "data/curated/teacher-salary-peer-comparison.csv")
+    assert set(frame["year"]) == {2026, 2027}
+    assert set(frame["status"]) == {"estimated"}
+    assert set(frame["rpp_year"]) == {2024}
+    row = frame[(frame["geography"] == "Virginia") & (frame["year"] == 2027)].iloc[0]
+    assert row["purchasing_power_salary"] == pytest.approx(
+        row["nominal_salary"] / (row["rpp"] / 100), abs=0.001
+    )
 
 
 def test_public_build_contains_no_excluded_source_material() -> None:
     blocked_tokens = (
         "national education association",
         "south carolina department of education",
-        "revenue and fiscal affairs",
         "nea.org",
         "ed.sc.gov",
-        "rfa.sc.gov",
         "dropbox.com",
-        "64" + "050",
         "67" + "107",
         "14" + "944",
         "15" + "888",

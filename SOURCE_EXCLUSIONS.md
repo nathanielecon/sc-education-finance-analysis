@@ -20,13 +20,6 @@ The site permits links, but the review did not approve copying or derivative pub
 - Landing page: [SC READY](https://www.ed.sc.gov/data/test-scores/state-assessments/sc-ready/)
 - Policy: [Privacy and legal notice](https://www.ed.sc.gov/privacy-legal/)
 
-## South Carolina Revenue and Fiscal Affairs Office
-
-The review did not locate an affirmative reuse license for the planned publication protocol.
-
-- Landing page: [Education data and research](https://rfa.sc.gov/data-research/education)
-- Policy: [Privacy statement and disclaimers](https://rfa.sc.gov/page/privacy-statement-disclaimers)
-
 ## Dropbox-supplied materials
 
 A shared link establishes access.
@@ -36,4 +29,4 @@ It does not establish downstream republication rights.
 - Service: [Dropbox](https://www.dropbox.com/)
 - Policy: [Dropbox terms](https://www.dropbox.com/terms)
 
-No excluded source data, extracted values, source-shaped fixtures, or derivative figures belong in the public build.
+No excluded source data, extracted values, source-shaped fixtures, or derivative figures belong in the public build. See [DATA_SOURCES.md](DATA_SOURCES.md) for RFA's limited factual use.

@@ -1,10 +1,18 @@
 [analysis]
 years = [2008, 2024]
 trend_start_year = 2014
+salary_start_year = 2020
+salary_latest_regional_actual_year = 2024
+salary_estimate_years = [2026, 2027]
+salary_rpp_year = 2024
 peer_states = [
   "Alabama", "Arkansas", "Florida", "Georgia", "Kentucky", "Louisiana",
   "Mississippi", "North Carolina", "South Carolina", "Tennessee", "Virginia",
   "West Virginia",
+]
+salary_peer_states = [
+  "Alabama", "Arkansas", "Florida", "Georgia", "Kentucky", "Louisiana",
+  "Mississippi", "North Carolina", "Tennessee", "Virginia", "West Virginia",
 ]
 
 [paths]
@@ -19,7 +27,9 @@ landing_url = "https://www.bea.gov/data/prices-inflation/regional-price-parities
 data_url = "https://apps.bea.gov/regional/zip/SARPP.zip"
 rights_basis = "BEA states that its website information is public domain unless otherwise noted. Attribution is requested."
 rights_url = "https://www.bea.gov/help/faq/147"
-redistribution_permitted = true
+download_permitted = true
+factual_extraction_permitted = true
+raw_redistribution_permitted = true
 derivative_visualizations_permitted = true
 approved_for_public_build = true
 reviewed_on = "2026-09-07"
@@ -33,7 +43,9 @@ publisher = "National Education Association"
 landing_url = "https://www.nea.org/resource-library/educator-pay-and-student-spending-how-does-your-state-rank"
 rights_basis = "No affirmative permission was established for this publication protocol."
 rights_url = "https://www.nea.org/terms-use"
-redistribution_permitted = false
+download_permitted = false
+factual_extraction_permitted = false
+raw_redistribution_permitted = false
 derivative_visualizations_permitted = false
 approved_for_public_build = false
 reviewed_on = "2026-09-07"
@@ -43,27 +55,37 @@ publisher = "South Carolina Department of Education"
 landing_url = "https://www.ed.sc.gov/data/test-scores/state-assessments/sc-ready/"
 rights_basis = "The website terms permit linking but do not approve this republication protocol."
 rights_url = "https://www.ed.sc.gov/privacy-legal/"
-redistribution_permitted = false
+download_permitted = false
+factual_extraction_permitted = false
+raw_redistribution_permitted = false
 derivative_visualizations_permitted = false
 approved_for_public_build = false
 reviewed_on = "2026-09-07"
 
 [sources.rfa]
 publisher = "South Carolina Revenue and Fiscal Affairs Office"
-landing_url = "https://rfa.sc.gov/data-research/education"
-rights_basis = "No affirmative reuse license was located for this publication protocol."
-rights_url = "https://rfa.sc.gov/page/privacy-statement-disclaimers"
-redistribution_permitted = false
-derivative_visualizations_permitted = false
-approved_for_public_build = false
+landing_url = "https://www.rfa.sc.gov/resources/education/teacher-salary-projections"
+data_url = "https://www.rfa.sc.gov/media/11403"
+rights_basis = "The public build uses selected factual values with attribution. It does not reproduce the source PDF, table, chart, or prose."
+rights_url = "https://www.rfa.sc.gov/privacy-and-disclaimers"
+download_permitted = true
+factual_extraction_permitted = true
+raw_redistribution_permitted = false
+derivative_visualizations_permitted = true
+approved_for_public_build = true
 reviewed_on = "2026-09-07"
+release = "2025-11-19"
+filename = "rfa-teacher-salary-fy2026-27.pdf"
+snapshot = "rfa-teacher-salary-selected.csv"
 
 [sources.dropbox]
 publisher = "External contributors through Dropbox"
 landing_url = "https://www.dropbox.com/"
 rights_basis = "Access through a shared link does not establish downstream republication rights."
 rights_url = "https://www.dropbox.com/terms"
-redistribution_permitted = false
+download_permitted = false
+factual_extraction_permitted = false
+raw_redistribution_permitted = false
 derivative_visualizations_permitted = false
 approved_for_public_build = false
 reviewed_on = "2026-09-07"

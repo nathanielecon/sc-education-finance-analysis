@@ -3,7 +3,7 @@ from __future__ import annotations
 import math
 from dataclasses import asdict, dataclass
 
-VALID_STATUSES = {"actual", "revised", "estimated"}
+VALID_STATUSES = {"actual", "estimated"}
 
 
 @dataclass(frozen=True, slots=True)
@@ -12,12 +12,15 @@ class Record:
     source_release: str
     geography: str
     year: int
+    period: str
     metric: str
     value: float
     unit: str
     status: str
+    is_revised: bool
+    rpp_year: int | None
 
-    def as_dict(self) -> dict[str, str | float | int]:
+    def as_dict(self) -> dict[str, str | float | int | bool | None]:
         return asdict(self)
 
 

@@ -1,76 +1,47 @@
 # Findings and methodology
 
-## Scope
+## Scope and data vintage
 
-The public release uses BEA regional price parity data through 2024.
+The salary series comes from the RFA FY 2026-27 Southeastern Average Teacher Salary Survey, updated November 19, 2025. The survey covers Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, Tennessee, Virginia, and West Virginia. It also reports the Southeastern average and South Carolina actual salaries. The price series comes from the BEA state regional price parity release through 2024. A regional price parity of 100 equals the national price level for that year.
 
-It covers South Carolina and 11 peer states named in `config.toml`.
+## South Carolina and the regional average
 
-The normalized output includes all five BEA RPP series.
+South Carolina's actual average teacher salary rose from $53,329 in FY 2019-20 to $64,050 in FY 2024-25. That is a nominal increase of 20.1%. The FY 2024-25 Southeastern estimate was $61,749. South Carolina's actual salary was $2,301 above it, a difference of 3.7%.
 
-The peer rankings and figures use the all-items series with `LineCode` 1.
+RFA reports estimated Southeastern averages of $63,085 for FY 2025-26 and $65,545 for FY 2026-27. The later estimate is 3.9% higher than the first. RFA does not report a South Carolina estimate for either year, so the South Carolina line ends with the FY 2024-25 actual value.
 
-An RPP of 100 equals the national price level for that year.
+## Peer-state estimates
 
-An index below 100 indicates a lower relative price level.
+Virginia has the highest FY 2026-27 estimate at $78,987. Georgia follows at $75,395. Mississippi has the lowest estimate at $56,314. RFA marks all 11 FY 2025-26 peer estimates as revised. The pipeline stores those records as estimates and sets `is_revised` to `true`.
 
-## South Carolina
+## Regional price adjustment
 
-South Carolina's 2024 RPP was 93.749.
+The adjusted comparison divides each FY 2026-27 estimate by its 2024 all-items RPP divided by 100. BEA had not published a later RPP year for this release, so the price year precedes the salary estimate. Georgia has the highest adjusted value at about $78,297. Virginia is close behind at about $78,125. Florida has the lowest adjusted value at about $59,834 because its 2024 price level was above the national average.
 
-The index was 6.251 points below the national level.
+These adjusted values compare purchasing power across states. They are not forecasts of take-home pay or living expenses for individual teachers.
 
-South Carolina ranked fifth-highest among the 12 peer states.
+## South Carolina regional prices
 
-Its RPP increased by 0.518 points between 2014 and 2024.
+South Carolina's 2024 all-items RPP was 93.749. The index was 6.251 points below the national level and ranked fifth-highest among the 12 states in this analysis. The state's all-items RPP increased from 93.231 in 2014 to 93.749 in 2024. Its 2024 RPP for services other than housing and utilities was 98.284.
 
-That change equals 0.56% when the 2014 value is the denominator.
+## Calculations and labels
 
-South Carolina's 2024 RPP for services other than housing and utilities was 98.284.
+Percentage change uses `(new - old) / old * 100`. Purchasing power uses `nominal / (RPP / 100)`. The `status` field distinguishes actual values from estimates. The `is_revised` field records RFA's revision marker without changing an estimate into an actual value. The pipeline rounds only presentation values.
 
-That value comes from `LineCode` 5.
-
-## Peer comparison
-
-Florida recorded the highest 2024 peer value at 103.414.
-
-Virginia followed at 101.104.
-
-Arkansas recorded the lowest peer value at 86.937.
-
-The difference between the highest and lowest peer values was 16.477 points.
-
-These values compare price levels.
-
-They do not measure education spending or educational outcomes.
+The reported Southeastern average comes directly from the RFA survey. The source does not provide teacher-count weights, so the repository does not calculate a weighted average.
 
 ## Data lineage
 
-The committed source snapshot is [`data/source/bea-rpp-state-2008-2024.csv`](../data/source/bea-rpp-state-2008-2024.csv).
+The committed source snapshots are [`bea-rpp-state-2008-2024.csv`](../data/source/bea-rpp-state-2008-2024.csv) and [`rfa-teacher-salary-selected.csv`](../data/source/rfa-teacher-salary-selected.csv). The RFA snapshot contains selected facts. [`source-manifest.json`](../data/source/source-manifest.json) records the source URLs, retrieval times, releases, content types, source-file hashes, and snapshot hashes.
 
-Its acquisition record is [`data/source/source-manifest.json`](../data/source/source-manifest.json).
+[`observations.csv`](../data/curated/observations.csv) contains the normalized records. [`teacher-salary-peer-comparison.csv`](../data/curated/teacher-salary-peer-comparison.csv) contains the nominal and adjusted peer comparisons.
 
-The normalized output is [`data/curated/observations.csv`](../data/curated/observations.csv).
+The normalized schema includes `source`, `source_release`, `geography`, `year`, `period`, `metric`, `value`, `unit`, `status`, `is_revised`, and `rpp_year`.
 
-The 2024 comparison is [`data/curated/south-carolina-peer-comparison.csv`](../data/curated/south-carolina-peer-comparison.csv).
+## Sources
 
-The normalized schema contains `source`, `source_release`, `geography`, `year`, `metric`, `value`, `unit`, and `status`.
-
-All published records have an `actual` status.
-
-The pipeline verifies the source hash before it builds any output.
-
-## Publication boundary
-
-The public build excludes salary, spending, staffing, enrollment, and assessment data.
-
-The exclusion is a conservative publication control.
-
-It is not a conclusion about whether a particular use would be lawful.
-
-See [SOURCE_EXCLUSIONS.md](../SOURCE_EXCLUSIONS.md) for the current decisions.
-
-## Source
-
+- [RFA teacher salary projections](https://www.rfa.sc.gov/resources/education/teacher-salary-projections)
+- [RFA FY 2026-27 survey](https://www.rfa.sc.gov/media/11403)
+- [RFA privacy and disclaimers](https://www.rfa.sc.gov/privacy-and-disclaimers)
 - [BEA regional price parity archive](https://apps.bea.gov/regional/zip/SARPP.zip)
 - [BEA copyright FAQ](https://www.bea.gov/help/faq/147)

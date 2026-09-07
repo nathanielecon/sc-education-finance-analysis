@@ -9,10 +9,13 @@ def record(**changes: object) -> Record:
         "source_release": "2026",
         "geography": "Zone Alpha",
         "year": 2026,
+        "period": "FY 2025-26",
         "metric": "synthetic_index",
         "value": 1.0,
         "unit": "index",
         "status": "actual",
+        "is_revised": False,
+        "rpp_year": None,
     }
     values.update(changes)
     return Record(**values)  # type: ignore[arg-type]
@@ -29,9 +32,10 @@ def test_duplicate_rows_fail() -> None:
         validate_records([record(), record()])
 
 
-def test_invalid_status_fails() -> None:
+@pytest.mark.parametrize("status", ["forecast", "revised"])
+def test_invalid_status_fails(status: str) -> None:
     with pytest.raises(ValueError, match="Invalid status"):
-        validate_records([record(status="forecast")])
+        validate_records([record(status=status)])
 
 
 def test_incomplete_coverage_fails() -> None:

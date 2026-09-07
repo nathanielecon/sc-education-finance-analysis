@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import hashlib
 import json
 import zipfile
@@ -10,7 +11,8 @@ from typing import Any
 import requests
 
 from .config import resolve_path
-from .rights import approved_source_ids, assert_publication_allowed
+from .extract import extract_rfa_salary_pdf
+from .rights import approved_source_ids, assert_source_use_allowed
 
 
 def sha256(path: Path) -> str:
@@ -22,15 +24,15 @@ def sha256(path: Path) -> str:
 
 
 def fetch_sources(root: Path, config: dict[str, Any]) -> Path:
-    """Fetch only sources that pass the public-build rights gate."""
+    """Fetch sources approved for download and publish only approved snapshots."""
     raw_dir = resolve_path(root, config["paths"]["raw"])
     source_dir = resolve_path(root, config["paths"]["source"])
     raw_dir.mkdir(parents=True, exist_ok=True)
     source_dir.mkdir(parents=True, exist_ok=True)
     entries: list[dict[str, str]] = []
 
-    for source_id in approved_source_ids(config):
-        source = assert_publication_allowed(config, source_id, derivative=True)
+    for source_id in approved_source_ids(config, use="download"):
+        source = assert_source_use_allowed(config, source_id, use="download")
         for required in ("data_url", "filename", "snapshot", "release"):
             if required not in source:
                 raise ValueError(f"Approved source {source_id!r} lacks {required!r}.")
@@ -39,15 +41,34 @@ def fetch_sources(root: Path, config: dict[str, Any]) -> Path:
         archive_path = raw_dir / str(source["filename"])
         archive_path.write_bytes(response.content)
         snapshot_path = source_dir / str(source["snapshot"])
-        with zipfile.ZipFile(archive_path) as archive:
-            member = str(source.get("archive_member", ""))
-            if member not in archive.namelist():
-                raise ValueError(f"Approved archive layout changed; missing {member!r}.")
-            with archive.open(member) as source_handle:
-                source_text = source_handle.read().decode("utf-8-sig")
-            normalized = source_text.replace("\r\n", "\n").replace("\r", "\n")
-            with snapshot_path.open("w", encoding="utf-8", newline="\n") as target:
-                target.write(normalized)
+        if source_id == "bea":
+            assert_source_use_allowed(config, source_id, use="raw_redistribution")
+            with zipfile.ZipFile(archive_path) as archive:
+                member = str(source.get("archive_member", ""))
+                if member not in archive.namelist():
+                    raise ValueError(f"Approved archive layout changed; missing {member!r}.")
+                with archive.open(member) as source_handle:
+                    source_text = source_handle.read().decode("utf-8-sig")
+                normalized = source_text.replace("\r\n", "\n").replace("\r", "\n")
+                with snapshot_path.open("w", encoding="utf-8", newline="\n") as target:
+                    target.write(normalized)
+        elif source_id == "rfa":
+            assert_source_use_allowed(config, source_id, use="factual_extraction")
+            records = extract_rfa_salary_pdf(
+                archive_path,
+                source_release=str(source["release"]),
+                peer_states=set(config["analysis"]["salary_peer_states"]),
+            )
+            with snapshot_path.open("w", encoding="utf-8", newline="") as target:
+                writer = csv.DictWriter(
+                    target,
+                    fieldnames=list(records[0].as_dict()),
+                    lineterminator="\n",
+                )
+                writer.writeheader()
+                writer.writerows(record.as_dict() for record in records)
+        else:
+            raise ValueError(f"No fetch adapter is configured for {source_id!r}.")
         entries.append(
             {
                 "source_id": source_id,
@@ -56,7 +77,8 @@ def fetch_sources(root: Path, config: dict[str, Any]) -> Path:
                 "rights_url": str(source["rights_url"]),
                 "retrieved_at": datetime.now(UTC).isoformat(),
                 "release": str(source["release"]),
-                "sha256": sha256(snapshot_path),
+                "source_sha256": sha256(archive_path),
+                "snapshot_sha256": sha256(snapshot_path),
                 "content_type": response.headers.get(
                     "content-type", "application/octet-stream"
                 ).split(";", 1)[0],
