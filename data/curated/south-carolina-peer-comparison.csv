@@ -1,13 +1,13 @@
 source,source_release,geography,year,metric,value,unit,status,peer_rank,difference_from_south_carolina
-BEA regional price parities,2024,Florida,2024,regional_price_parity,103.414,index (United States = 100),actual,1,9.665
-BEA regional price parities,2024,Virginia,2024,regional_price_parity,101.104,index (United States = 100),actual,2,7.355
-BEA regional price parities,2024,Georgia,2024,regional_price_parity,96.293,index (United States = 100),actual,3,2.544
-BEA regional price parities,2024,North Carolina,2024,regional_price_parity,94.326,index (United States = 100),actual,4,0.577
-BEA regional price parities,2024,South Carolina,2024,regional_price_parity,93.749,index (United States = 100),actual,5,0.000
-BEA regional price parities,2024,Tennessee,2024,regional_price_parity,91.870,index (United States = 100),actual,6,-1.879
-BEA regional price parities,2024,Kentucky,2024,regional_price_parity,90.159,index (United States = 100),actual,7,-3.590
-BEA regional price parities,2024,West Virginia,2024,regional_price_parity,89.497,index (United States = 100),actual,8,-4.252
-BEA regional price parities,2024,Alabama,2024,regional_price_parity,88.823,index (United States = 100),actual,9,-4.926
-BEA regional price parities,2024,Louisiana,2024,regional_price_parity,88.207,index (United States = 100),actual,10,-5.542
-BEA regional price parities,2024,Mississippi,2024,regional_price_parity,86.953,index (United States = 100),actual,11,-6.796
-BEA regional price parities,2024,Arkansas,2024,regional_price_parity,86.937,index (United States = 100),actual,12,-6.812
+BEA regional price parities,2024,Florida,2024,regional_price_parity_all_items,103.414,index (United States = 100),actual,1,9.665
+BEA regional price parities,2024,Virginia,2024,regional_price_parity_all_items,101.104,index (United States = 100),actual,2,7.355
+BEA regional price parities,2024,Georgia,2024,regional_price_parity_all_items,96.293,index (United States = 100),actual,3,2.544
+BEA regional price parities,2024,North Carolina,2024,regional_price_parity_all_items,94.326,index (United States = 100),actual,4,0.577
+BEA regional price parities,2024,South Carolina,2024,regional_price_parity_all_items,93.749,index (United States = 100),actual,5,0.000
+BEA regional price parities,2024,Tennessee,2024,regional_price_parity_all_items,91.870,index (United States = 100),actual,6,-1.879
+BEA regional price parities,2024,Kentucky,2024,regional_price_parity_all_items,90.159,index (United States = 100),actual,7,-3.590
+BEA regional price parities,2024,West Virginia,2024,regional_price_parity_all_items,89.497,index (United States = 100),actual,8,-4.252
+BEA regional price parities,2024,Alabama,2024,regional_price_parity_all_items,88.823,index (United States = 100),actual,9,-4.926
+BEA regional price parities,2024,Louisiana,2024,regional_price_parity_all_items,88.207,index (United States = 100),actual,10,-5.542
+BEA regional price parities,2024,Mississippi,2024,regional_price_parity_all_items,86.953,index (United States = 100),actual,11,-6.796
+BEA regional price parities,2024,Arkansas,2024,regional_price_parity_all_items,86.937,index (United States = 100),actual,12,-6.812

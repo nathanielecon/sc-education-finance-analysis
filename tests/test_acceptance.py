@@ -16,10 +16,22 @@ def test_south_carolina_2024_spot_check() -> None:
     row = frame[
         (frame["geography"] == "South Carolina")
         & (frame["year"] == 2024)
-        & (frame["metric"] == "regional_price_parity")
+        & (frame["metric"] == "regional_price_parity_all_items")
     ]
     assert len(row) == 1
     assert row.iloc[0]["value"] == pytest.approx(93.749)
+    assert row.iloc[0]["status"] == "actual"
+
+
+def test_south_carolina_2024_services_other_spot_check() -> None:
+    frame = pd.read_csv(ROOT / "data/curated/observations.csv")
+    row = frame[
+        (frame["geography"] == "South Carolina")
+        & (frame["year"] == 2024)
+        & (frame["metric"] == "regional_price_parity_services_other")
+    ]
+    assert len(row) == 1
+    assert row.iloc[0]["value"] == pytest.approx(98.284)
     assert row.iloc[0]["status"] == "actual"
 
 

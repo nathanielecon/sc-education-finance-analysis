@@ -20,7 +20,10 @@ Those controls include guarded external access, explicit permissions, determinis
 - That index places South Carolina fifth-highest among the 12 peer states in this analysis.
 - South Carolina's index was 6.251 points below the national price level of 100.
 - The state's index increased from 93.231 in 2014 to 93.749 in 2024.
+- South Carolina's 2024 RPP for services other than housing and utilities was 98.284.
 - Florida had the peer group's highest 2024 index at 103.414. Arkansas had the lowest at 86.937.
+
+The peer rankings and trends use the all-items series.
 
 These results describe relative price levels.
 

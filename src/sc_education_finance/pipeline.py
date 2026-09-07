@@ -75,7 +75,10 @@ def build(root: Path, destination: Path | None = None) -> list[Path]:
         curated / "observations.csv", index=False, lineterminator="\n", float_format="%.3f"
     )
 
-    latest = frame[frame["year"] == last_year].sort_values("value", ascending=False).copy()
+    latest = frame[
+        (frame["metric"] == "regional_price_parity_all_items")
+        & (frame["year"] == last_year)
+    ].sort_values("value", ascending=False).copy()
     latest["peer_rank"] = competition_ranks(latest["value"].tolist())
     sc_value = float(
         latest.loc[latest["geography"] == "South Carolina", "value"].iloc[0]
