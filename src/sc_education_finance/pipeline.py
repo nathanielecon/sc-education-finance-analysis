@@ -95,9 +95,8 @@ def build(root: Path, destination: Path | None = None) -> list[Path]:
         "rights_url": source["rights_url"],
         "approved_for_public_build": True,
     }
-    (curated / "lineage.json").write_text(
-        json.dumps(lineage, indent=2) + "\n", encoding="utf-8"
-    )
+    with (curated / "lineage.json").open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(lineage, indent=2) + "\n")
     render_all(
         frame,
         figures,

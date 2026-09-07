@@ -64,5 +64,6 @@ def fetch_sources(root: Path, config: dict[str, Any]) -> Path:
         )
 
     manifest = source_dir / "source-manifest.json"
-    manifest.write_text(json.dumps({"sources": entries}, indent=2) + "\n", encoding="utf-8")
+    with manifest.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps({"sources": entries}, indent=2) + "\n")
     return manifest
