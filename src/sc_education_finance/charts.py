@@ -21,7 +21,8 @@ def _finish(figure: plt.Figure, output: Path, caption: str) -> None:
         metadata={"Date": None, "Creator": "sc-education-finance"},
     )
     clean_svg = "\n".join(line.rstrip() for line in svg_path.read_text().splitlines())
-    svg_path.write_text(clean_svg + "\n", encoding="utf-8")
+    with svg_path.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(clean_svg + "\n")
     figure.savefig(
         output.with_suffix(".png"),
         dpi=300,
