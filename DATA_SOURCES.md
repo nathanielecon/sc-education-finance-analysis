@@ -1,4 +1,4 @@
-# Data sources
+# Data Sources
 
 `config.toml` is the authoritative source registry.
 
@@ -8,7 +8,7 @@ A public source needs a publisher, a landing page, a review basis, a policy URL,
 
 The pipeline rejects an unregistered or unapproved source.
 
-## BEA regional price parities
+## BEA Regional Price Parities
 
 BEA states that its website information is public domain unless otherwise noted. BEA requests attribution.
 
@@ -19,13 +19,13 @@ BEA states that its website information is public domain unless otherwise noted.
 - Published series: all-items, goods, housing services, utility services, and other services
 - Figure series: all-items state RPP, `LineCode` 1
 
-## RFA teacher salary survey
+## RFA Teacher Salary Survey
 
 The project uses selected facts from RFA's FY 2026-27 Southeastern Average Teacher Salary Survey. It does not publish the PDF, copy the source table, or reuse RFA's chart or prose.
 
 - Landing page: [Teacher salary projections](https://www.rfa.sc.gov/resources/education/teacher-salary-projections)
 - Survey: [FY 2026-27 survey](https://www.rfa.sc.gov/media/11403)
-- Policy: [RFA privacy and disclaimers](https://www.rfa.sc.gov/privacy-and-disclaimers)
+- Policy: [RFA privacy statement and disclaimers](https://rfa.sc.gov/page/privacy-statement-disclaimers)
 - Review date: 2026-09-07
 - Survey update: 2025-11-19
 - Source SHA-256: `0f8a0e37672f8e9b9c7f412b9573134a1bb43975eb231bfec2c4607a5a5feee9`
@@ -33,7 +33,7 @@ The project uses selected facts from RFA's FY 2026-27 Southeastern Average Teach
 - Permitted in this project: download, factual extraction, calculations, and original visualizations
 - Excluded from Git: the source PDF and substantial copies of its table, chart, or prose
 
-## Adding a source
+## Adding a Source
 
 Complete `LEGAL_POLICY_REVIEW.md` before any request, repository mutation, or publication that involves a new source.
 

@@ -116,7 +116,7 @@ def extract_rfa_salary_pdf(
         if len(cells) != 8:
             raise ValueError(f"RFA row for {geography} must contain eight values.")
         found_peers.add(geography)
-        for year, (value, revised) in zip((2026, 2027), cells[-2:], strict=True):
+        for year, (value, revised) in zip((2025, 2026, 2027), cells[-3:], strict=True):
             records.append(
                 Record(
                     source=RFA_SOURCE_NAME,
@@ -190,7 +190,7 @@ def load_rfa_salary_snapshot(
     expected_keys = {
         *(('South Carolina', year) for year in range(2020, 2026)),
         *(('Southeastern average', year) for year in RFA_YEARS),
-        *((state, year) for state in peer_states for year in (2026, 2027)),
+        *((state, year) for state in peer_states for year in (2025, 2026, 2027)),
     }
     found_keys = {(record.geography, record.year) for record in records}
     if found_keys != expected_keys:

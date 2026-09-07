@@ -103,15 +103,66 @@ def test_rfa_salary_spot_checks(
     assert row.iloc[0]["status"] == status
 
 
-def test_salary_adjustments_use_2024_rpp_for_later_estimates() -> None:
+def test_salary_comparisons_include_south_carolina_and_use_2024_rpp() -> None:
     frame = pd.read_csv(ROOT / "data/curated/teacher-salary-peer-comparison.csv")
-    assert set(frame["year"]) == {2026, 2027}
-    assert set(frame["status"]) == {"estimated"}
+    assert set(frame["year"]) == {2025}
+    assert set(frame["geography"]) == {
+        "Alabama",
+        "Arkansas",
+        "Florida",
+        "Georgia",
+        "Kentucky",
+        "Louisiana",
+        "Mississippi",
+        "North Carolina",
+        "South Carolina",
+        "Tennessee",
+        "Virginia",
+        "West Virginia",
+    }
     assert set(frame["rpp_year"]) == {2024}
-    row = frame[(frame["geography"] == "Virginia") & (frame["year"] == 2027)].iloc[0]
+    row = frame[frame["geography"] == "South Carolina"].iloc[0]
+    assert row["nominal_salary"] == 64_050
+    assert row["status"] == "actual"
     assert row["purchasing_power_salary"] == pytest.approx(
         row["nominal_salary"] / (row["rpp"] / 100), abs=0.001
     )
+
+
+def test_south_carolina_salary_ranks_change_after_rpp_adjustment() -> None:
+    frame = pd.read_csv(ROOT / "data/curated/teacher-salary-peer-comparison.csv")
+    nominal = frame.sort_values("nominal_salary", ascending=False).reset_index(drop=True)
+    adjusted = frame.sort_values(
+        "purchasing_power_salary", ascending=False
+    ).reset_index(drop=True)
+    assert nominal.index[nominal["geography"] == "South Carolina"].item() + 1 == 3
+    assert adjusted.index[adjusted["geography"] == "South Carolina"].item() + 1 == 7
+    sc_adjusted = adjusted.loc[
+        adjusted["geography"] == "South Carolina", "purchasing_power_salary"
+    ].item()
+    assert sc_adjusted == pytest.approx(68_320.729, abs=0.001)
+
+
+def test_salary_figures_use_title_case_and_match_years() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "# South Carolina Teacher Salary and Regional Cost Analysis" in readme
+    assert "docs/assets/figures/nominal-salary-comparison.svg" in readme
+    assert "docs/assets/figures/adjusted-salary-comparison.svg" in readme
+    assert "peer-salary-estimates.svg" not in readme
+
+    nominal_svg = (
+        ROOT / "docs/assets/figures/nominal-salary-comparison.svg"
+    ).read_text(encoding="utf-8")
+    adjusted_svg = (
+        ROOT / "docs/assets/figures/adjusted-salary-comparison.svg"
+    ).read_text(encoding="utf-8")
+    assert "Average Teacher Salaries, FY 2024-25" in nominal_svg
+    assert "Teacher Salaries After Regional Price Adjustment, FY 2024-25" in adjusted_svg
+    for svg in (nominal_svg, adjusted_svg):
+        assert "South Carolina" in svg
+        assert "$64,050" in svg or "$68,321" in svg
+        assert "RFA reports South Carolina as actual." in svg
+        assert "RFA marks peer-state values as revised estimates." in svg
 
 
 def test_public_build_contains_no_excluded_source_material() -> None:

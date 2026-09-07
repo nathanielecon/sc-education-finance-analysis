@@ -52,11 +52,25 @@ def test_selected_snapshot_preserves_estimates_and_revisions() -> None:
     kentucky_2026 = next(
         record for record in records if record.geography == "Kentucky" and record.year == 2026
     )
+    south_carolina_2025 = next(
+        record
+        for record in records
+        if record.geography == "South Carolina" and record.year == 2025
+    )
+    virginia_2025 = next(
+        record for record in records if record.geography == "Virginia" and record.year == 2025
+    )
     alabama_2027 = next(
         record for record in records if record.geography == "Alabama" and record.year == 2027
     )
     assert kentucky_2026.status == "estimated"
     assert kentucky_2026.is_revised is True
+    assert south_carolina_2025.value == 64_050
+    assert south_carolina_2025.status == "actual"
+    assert south_carolina_2025.is_revised is False
+    assert virginia_2025.value == 73_808
+    assert virginia_2025.status == "estimated"
+    assert virginia_2025.is_revised is True
     assert alabama_2027.status == "estimated"
     assert alabama_2027.is_revised is False
 

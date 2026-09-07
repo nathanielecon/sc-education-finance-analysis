@@ -1,4 +1,4 @@
-# Source exclusions
+# Source Exclusions
 
 The public build excludes the sources below.
 
@@ -20,7 +20,7 @@ The site permits links, but the review did not approve copying or derivative pub
 - Landing page: [SC READY](https://www.ed.sc.gov/data/test-scores/state-assessments/sc-ready/)
 - Policy: [Privacy and legal notice](https://www.ed.sc.gov/privacy-legal/)
 
-## Dropbox-supplied materials
+## Dropbox-Supplied Materials
 
 A shared link establishes access.
 

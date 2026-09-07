@@ -1,4 +1,4 @@
-# Legal and policy review checklist
+# Legal and Policy Review Checklist
 
 Complete this checklist before a repository mutation, external-data request, release, or other public action.
 
@@ -8,13 +8,13 @@ This checklist is a project control.
 
 It is not legal advice.
 
-## Scope and stakeholders
+## Scope and Stakeholders
 
 - [ ] Describe the exact action and public outputs.
 - [ ] Identify publishers, contributors, users, platforms, and people represented in the data.
 - [ ] Confirm that the action stays within the approved project scope.
 
-## Rights and website policies
+## Rights and Website Policies
 
 - [ ] Read the dataset license, copyright notice, website terms, and linked policies.
 - [ ] Record the basis for each permitted use, including factual extraction and original analysis.
@@ -22,19 +22,19 @@ It is not legal advice.
 - [ ] Confirm that the review does not treat public-record status or an accessible link as a reuse license.
 - [ ] Record separate decisions for download, factual extraction, raw redistribution, and derivative visualization in `config.toml`.
 
-## Privacy, confidentiality, and security
+## Privacy, Confidentiality, and Security
 
 - [ ] Confirm that the materials contain no personal, confidential, restricted, or contract-controlled information.
 - [ ] Confirm that credentials and local paths cannot enter code, logs, history, artifacts, or fixtures.
 - [ ] Confirm source hashes and keep raw downloads outside Git unless the registry approves publication.
 
-## Platforms and dependencies
+## Platforms and Dependencies
 
 - [ ] Review repository-hosting and source-platform rules for the planned action.
 - [ ] Review dependency licenses, vulnerability findings, and transitive notices.
 - [ ] Confirm that only an explicitly approved CI workflow uses network access.
 
-## Release evidence
+## Release Evidence
 
 - [ ] Run tests, static analysis, secret scanning, rights tests, drift detection, and link validation.
 - [ ] Scan the complete public history and all public Git references.

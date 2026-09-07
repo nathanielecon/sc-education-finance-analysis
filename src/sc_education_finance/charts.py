@@ -11,7 +11,6 @@ plt.rcParams["svg.hashsalt"] = "sc-education-finance-analysis"
 BLUE = "#0072B2"
 ORANGE = "#E69F00"
 GRAY = "#8A8A8A"
-GREEN = "#009E73"
 
 
 def _finish(figure: plt.Figure, output: Path, caption: str) -> None:
@@ -78,7 +77,7 @@ def rpp_trends(frame: pd.DataFrame, output: Path, *, start_year: int) -> None:
     axis.axhline(100, color=ORANGE, linestyle="--", linewidth=1.2)
     axis.text(start_year, 100.25, "U.S. price level = 100", color="#8A6400", fontsize=8)
     axis.set_title(
-        "Regional price parity trends across Southeastern peer states",
+        "Regional Price Parity Trends Across Southeastern Peer States",
         loc="left",
         fontsize=16,
         fontweight="bold",
@@ -110,7 +109,7 @@ def sc_peer_comparison(frame: pd.DataFrame, output: Path, *, year: int) -> None:
     )
     axis.axvline(100, color=ORANGE, linestyle="--", linewidth=1.2)
     axis.set_title(
-        f"South Carolina regional prices within its peer group, {year}",
+        f"South Carolina Regional Prices Within Its Peer Group, {year}",
         loc="left",
         fontsize=16,
         fontweight="bold",
@@ -181,7 +180,7 @@ def salary_trends(
         va="bottom",
     )
     axis.set_title(
-        "South Carolina teacher salary and the Southeastern average",
+        "South Carolina Teacher Salary and the Southeastern Average",
         loc="left",
         fontsize=16,
         fontweight="bold",
@@ -199,80 +198,40 @@ def salary_trends(
     )
 
 
-def peer_salary_estimates(frame: pd.DataFrame, output: Path) -> None:
-    data = frame.sort_values(["geography", "year"])
-    figure, axis = plt.subplots(figsize=(11, 8))
-    endpoints: list[tuple[str, float]] = []
-    for state, group in data.groupby("geography", sort=True):
-        color = BLUE if state in {"Virginia", "Mississippi"} else GRAY
-        axis.plot(
-            group["year"],
-            group["nominal_salary"],
-            color=color,
-            linestyle="--",
-            linewidth=2 if color == BLUE else 1.2,
-            marker="o",
-            alpha=1 if color == BLUE else 0.7,
-        )
-        revised = group[group["is_revised"].astype(bool)]
-        for year, value in revised[["year", "nominal_salary"]].itertuples(
-            index=False, name=None
-        ):
-            axis.annotate(
-                "r",
-                (int(str(year)), float(str(value))),
-                xytext=(0, 6),
-                textcoords="offset points",
-                ha="center",
-                fontsize=7,
-                color="#555555",
-            )
-        last = group.iloc[-1]
-        endpoints.append((str(state), float(last["nominal_salary"])))
-
-    positions: dict[str, float] = {}
-    prior = -float("inf")
-    for state, value in sorted(endpoints, key=lambda item: item[1]):
-        positions[state] = max(value, prior + 1_150)
-        prior = positions[state]
-    overflow = max(positions.values()) - (float(data["nominal_salary"].max()) + 4_000)
-    if overflow > 0:
-        positions = {state: value - overflow for state, value in positions.items()}
-    for state, value in endpoints:
-        color = BLUE if state in {"Virginia", "Mississippi"} else "#555555"
-        axis.annotate(
-            f"{state}  ${value:,.0f}",
-            xy=(2027, value),
-            xytext=(2027.08, positions[state]),
-            color=color,
-            va="center",
-            fontsize=8,
-            arrowprops={"arrowstyle": "-", "color": color, "alpha": 0.5},
-            annotation_clip=False,
-        )
-    axis.set_xticks([2026, 2027], ["FY 2025-26", "FY 2026-27"])
-    axis.set_xlim(2025.9, 2027.55)
+def nominal_salary_comparison(frame: pd.DataFrame, output: Path) -> None:
+    year = int(frame["year"].iloc[0])
+    data = frame.sort_values("nominal_salary")
+    colors = [BLUE if state == "South Carolina" else GRAY for state in data["geography"]]
+    figure, axis = plt.subplots(figsize=(10, 7.5))
+    bars = axis.barh(data["geography"], data["nominal_salary"], color=colors)
+    axis.bar_label(
+        bars,
+        labels=[f"${value:,.0f}" for value in data["nominal_salary"]],
+        padding=4,
+        fontsize=8,
+    )
     axis.set_title(
-        "Southeastern teacher salary estimates",
+        f"Average Teacher Salaries, FY {year - 1}-{str(year)[-2:]}",
         loc="left",
         fontsize=16,
         fontweight="bold",
     )
-    axis.set_ylabel("Average teacher salary")
-    axis.yaxis.set_major_formatter(FuncFormatter(lambda value, _: f"${value:,.0f}"))
-    axis.grid(axis="y", alpha=0.2)
-    axis.spines[["top", "right"]].set_visible(False)
+    axis.set_xlabel("Average teacher salary")
+    axis.xaxis.set_major_formatter(FuncFormatter(lambda value, _: f"${value:,.0f}"))
+    axis.grid(axis="x", alpha=0.2)
+    axis.spines[["top", "right", "left"]].set_visible(False)
+    axis.margins(x=0.14)
     _finish(
         figure,
         output,
-        "Source: S.C. Revenue and Fiscal Affairs Office, FY 2026-27 survey. All values are estimates; r means revised.",
+        "Source: S.C. Revenue and Fiscal Affairs Office, FY 2026-27 survey. RFA reports South Carolina as actual. RFA marks peer-state values as revised estimates.",
     )
 
 
 def adjusted_salary_comparison(frame: pd.DataFrame, output: Path, *, rpp_year: int) -> None:
-    latest_year = int(frame["year"].max())
-    data = frame[frame["year"] == latest_year].sort_values("purchasing_power_salary")
-    colors = [GREEN if state == "Georgia" else GRAY for state in data["geography"]]
+    year = int(frame["year"].iloc[0])
+    data = frame.sort_values("purchasing_power_salary")
+    colors = [BLUE if state == "South Carolina" else GRAY for state in data["geography"]]
     figure, axis = plt.subplots(figsize=(10, 7.5))
     bars = axis.barh(data["geography"], data["purchasing_power_salary"], color=colors)
     axis.bar_label(
@@ -282,7 +241,7 @@ def adjusted_salary_comparison(frame: pd.DataFrame, output: Path, *, rpp_year: i
         fontsize=8,
     )
     axis.set_title(
-        "Estimated teacher salaries after regional price adjustment, FY 2026-27",
+        f"Teacher Salaries After Regional Price Adjustment, FY {year - 1}-{str(year)[-2:]}",
         loc="left",
         fontsize=15,
         fontweight="bold",
@@ -295,7 +254,7 @@ def adjusted_salary_comparison(frame: pd.DataFrame, output: Path, *, rpp_year: i
     _finish(
         figure,
         output,
-        "Sources: S.C. Revenue and Fiscal Affairs Office salary estimates and U.S. Bureau of Economic Analysis 2024 RPP. The RPP year precedes the salary estimate.",
+        "Sources: S.C. Revenue and Fiscal Affairs Office FY 2026-27 survey and U.S. Bureau of Economic Analysis 2024 RPP. RFA reports South Carolina as actual. RFA marks peer-state values as revised estimates.",
     )
 
 
@@ -317,7 +276,7 @@ def render_all(
         output / "salary-trends",
         latest_regional_actual_year=salary_latest_regional_actual_year,
     )
-    peer_salary_estimates(salary_comparison, output / "peer-salary-estimates")
+    nominal_salary_comparison(salary_comparison, output / "nominal-salary-comparison")
     adjusted_salary_comparison(
         salary_comparison,
         output / "adjusted-salary-comparison",

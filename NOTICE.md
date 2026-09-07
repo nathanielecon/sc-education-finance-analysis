@@ -1,4 +1,4 @@
-# Source attribution
+# Source Attribution
 
 The software in this repository is available under the MIT License.
 
