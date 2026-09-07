@@ -60,7 +60,11 @@ def fetch_sources(root: Path, config: dict[str, Any]) -> Path:
                 peer_states=set(config["analysis"]["salary_peer_states"]),
             )
             with snapshot_path.open("w", encoding="utf-8", newline="") as target:
-                writer = csv.DictWriter(target, fieldnames=list(records[0].as_dict()))
+                writer = csv.DictWriter(
+                    target,
+                    fieldnames=list(records[0].as_dict()),
+                    lineterminator="\n",
+                )
                 writer.writeheader()
                 writer.writerows(record.as_dict() for record in records)
         else:
