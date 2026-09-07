@@ -1,0 +1,26 @@
+name: Refresh official sources
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_live_source_test:
+        description: Fetch and validate the current official sources
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  refresh:
+    if: inputs.run_live_source_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen --extra dev
+      - name: Audit installed dependencies
+        run: uv run pip-audit
+      - run: uv run sc-education-finance refresh
+      - run: git diff --exit-code -- data/source data/curated docs/assets/figures

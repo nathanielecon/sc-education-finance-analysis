@@ -1,0 +1,69 @@
+[analysis]
+years = [2008, 2024]
+trend_start_year = 2014
+peer_states = [
+  "Alabama", "Arkansas", "Florida", "Georgia", "Kentucky", "Louisiana",
+  "Mississippi", "North Carolina", "South Carolina", "Tennessee", "Virginia",
+  "West Virginia",
+]
+
+[paths]
+raw = "data/raw"
+source = "data/source"
+curated = "data/curated"
+figures = "docs/assets/figures"
+
+[sources.bea]
+publisher = "U.S. Bureau of Economic Analysis"
+landing_url = "https://www.bea.gov/data/prices-inflation/regional-price-parities-state-and-metro-area"
+data_url = "https://apps.bea.gov/regional/zip/SARPP.zip"
+rights_basis = "BEA states that its website information is public domain unless otherwise noted. Attribution is requested."
+rights_url = "https://www.bea.gov/help/faq/147"
+redistribution_permitted = true
+derivative_visualizations_permitted = true
+approved_for_public_build = true
+reviewed_on = "2026-09-07"
+release = "2024"
+filename = "sarpp.zip"
+archive_member = "SARPP_STATE_2008_2024.csv"
+snapshot = "bea-rpp-state-2008-2024.csv"
+
+[sources.nea]
+publisher = "National Education Association"
+landing_url = "https://www.nea.org/resource-library/educator-pay-and-student-spending-how-does-your-state-rank"
+rights_basis = "No affirmative permission was established for this publication protocol."
+rights_url = "https://www.nea.org/terms-use"
+redistribution_permitted = false
+derivative_visualizations_permitted = false
+approved_for_public_build = false
+reviewed_on = "2026-09-07"
+
+[sources.scde]
+publisher = "South Carolina Department of Education"
+landing_url = "https://www.ed.sc.gov/data/test-scores/state-assessments/sc-ready/"
+rights_basis = "The website terms permit linking but do not approve this republication protocol."
+rights_url = "https://www.ed.sc.gov/privacy-legal/"
+redistribution_permitted = false
+derivative_visualizations_permitted = false
+approved_for_public_build = false
+reviewed_on = "2026-09-07"
+
+[sources.rfa]
+publisher = "South Carolina Revenue and Fiscal Affairs Office"
+landing_url = "https://rfa.sc.gov/data-research/education"
+rights_basis = "No affirmative reuse license was located for this publication protocol."
+rights_url = "https://rfa.sc.gov/page/privacy-statement-disclaimers"
+redistribution_permitted = false
+derivative_visualizations_permitted = false
+approved_for_public_build = false
+reviewed_on = "2026-09-07"
+
+[sources.dropbox]
+publisher = "External contributors through Dropbox"
+landing_url = "https://www.dropbox.com/"
+rights_basis = "Access through a shared link does not establish downstream republication rights."
+rights_url = "https://www.dropbox.com/terms"
+redistribution_permitted = false
+derivative_visualizations_permitted = false
+approved_for_public_build = false
+reviewed_on = "2026-09-07"

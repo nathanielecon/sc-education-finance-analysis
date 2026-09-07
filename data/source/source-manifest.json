@@ -1,0 +1,14 @@
+{
+  "sources": [
+    {
+      "source_id": "bea",
+      "publisher": "U.S. Bureau of Economic Analysis",
+      "data_url": "https://apps.bea.gov/regional/zip/SARPP.zip",
+      "rights_url": "https://www.bea.gov/help/faq/147",
+      "retrieved_at": "2026-09-07T14:36:32.226777+00:00",
+      "release": "2024",
+      "sha256": "b1de065707f2301dd7ec9d9164d117a29f5abd5345d2f4ce7d57cb73fd33b129",
+      "content_type": "application/x-zip-compressed"
+    }
+  ]
+}
