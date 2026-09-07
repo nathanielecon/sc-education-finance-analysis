@@ -3,7 +3,7 @@ from __future__ import annotations
 import math
 from dataclasses import asdict, dataclass
 
-VALID_STATUSES = {"actual", "estimated"}
+VALID_STATUSES = {"actual", "estimated", "modeled_scenario"}
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,6 +19,9 @@ class Record:
     status: str
     is_revised: bool
     rpp_year: int | None
+    method: str | None = None
+    input_source_ids: str | None = None
+    assumptions: str | None = None
 
     def as_dict(self) -> dict[str, str | float | int | bool | None]:
         return asdict(self)
@@ -37,6 +40,10 @@ def validate_records(
     for record in records:
         if record.status not in VALID_STATUSES:
             raise ValueError(f"Invalid status: {record.status}")
+        if record.status == "modeled_scenario" and (
+            not record.method or not record.input_source_ids or not record.assumptions
+        ):
+            raise ValueError("A modeled scenario requires derivation metadata.")
         if not math.isfinite(record.value):
             raise ValueError(f"Malformed value for {record.metric}")
         key = (record.geography, record.year, record.metric)

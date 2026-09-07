@@ -20,6 +20,10 @@ jobs:
       - run: uv run ruff check .
       - run: uv run mypy
       - run: uv run pytest
+      - name: Validate public prose structure
+        run: uv run python scripts/ste_lint.py README.md docs/findings.md
+      - name: Audit installed dependencies
+        run: uv run pip-audit
       - name: Validate dependency license inventory
         run: uv run pip-licenses --format=markdown
       - name: Rebuild committed outputs without live network requests

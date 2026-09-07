@@ -27,6 +27,22 @@ def test_status_label_is_preserved() -> None:
     assert item.status == "estimated"
 
 
+def test_modeled_scenario_requires_derivation_metadata() -> None:
+    item = record(
+        status="modeled_scenario",
+        method="input plus enacted increase",
+        input_source_ids="estimate;schedule",
+        assumptions="Composition stays constant.",
+    )
+    validate_records([item])
+    assert item.status == "modeled_scenario"
+
+
+def test_modeled_scenario_without_derivation_metadata_fails() -> None:
+    with pytest.raises(ValueError, match="derivation metadata"):
+        validate_records([record(status="modeled_scenario")])
+
+
 def test_duplicate_rows_fail() -> None:
     with pytest.raises(ValueError, match="Duplicate"):
         validate_records([record(), record()])

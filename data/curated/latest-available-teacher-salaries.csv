@@ -1,0 +1,13 @@
+geography,year,period,salary,status,is_revised,source,source_release,selection_basis
+Alabama,2027,FY 2026-27,66288.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+Arkansas,2027,FY 2026-27,65946.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+Florida,2027,FY 2026-27,61877.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+Georgia,2027,FY 2026-27,75395.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+Kentucky,2027,FY 2026-27,59160.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+Louisiana,2027,FY 2026-27,64737.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+Mississippi,2027,FY 2026-27,56314.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+North Carolina,2027,FY 2026-27,64739.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+South Carolina,2025,FY 2024-25,64050.000,actual,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,latest official actual
+Tennessee,2027,FY 2026-27,66344.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+Virginia,2027,FY 2026-27,78987.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback
+West Virginia,2027,FY 2026-27,61210.000,estimated,False,South Carolina Revenue and Fiscal Affairs Office teacher salary survey,2025-11-19,RFA estimate fallback

@@ -1,0 +1,7 @@
+source,source_release,geography,year,period,metric,value,unit,status,is_revised,rpp_year,method,input_source_ids,assumptions
+U.S. Bureau of Labor Statistics Occupational Employment and Wage Statistics,"May 2025, release 2025A01, published 2026-05-15",South Carolina,2025,May 2025,oews_252021_annual_mean_wage,62210.0,current dollars per year,estimated,False,,,,
+U.S. Bureau of Labor Statistics Occupational Employment and Wage Statistics,"May 2025, release 2025A01, published 2026-05-15",South Carolina,2025,May 2025,oews_252021_annual_median_wage,60820.0,current dollars per year,estimated,False,,,,
+U.S. Bureau of Labor Statistics Occupational Employment and Wage Statistics,"May 2025, release 2025A01, published 2026-05-15",South Carolina,2025,May 2025,oews_252022_annual_mean_wage,62580.0,current dollars per year,estimated,False,,,,
+U.S. Bureau of Labor Statistics Occupational Employment and Wage Statistics,"May 2025, release 2025A01, published 2026-05-15",South Carolina,2025,May 2025,oews_252022_annual_median_wage,60810.0,current dollars per year,estimated,False,,,,
+U.S. Bureau of Labor Statistics Occupational Employment and Wage Statistics,"May 2025, release 2025A01, published 2026-05-15",South Carolina,2025,May 2025,oews_252031_annual_mean_wage,65340.0,current dollars per year,estimated,False,,,,
+U.S. Bureau of Labor Statistics Occupational Employment and Wage Statistics,"May 2025, release 2025A01, published 2026-05-15",South Carolina,2025,May 2025,oews_252031_annual_median_wage,62580.0,current dollars per year,estimated,False,,,,

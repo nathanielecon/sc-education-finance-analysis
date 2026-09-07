@@ -5,22 +5,74 @@
       "publisher": "U.S. Bureau of Economic Analysis",
       "data_url": "https://apps.bea.gov/regional/zip/SARPP.zip",
       "rights_url": "https://www.bea.gov/help/faq/147",
-      "retrieved_at": "2026-09-07T16:32:24.698411+00:00",
+      "retrieved_at": "2026-09-07T18:48:40.670012+00:00",
       "release": "2024",
       "source_sha256": "38713c6224c4c26ae020ffecd4549b82dca84f43d34f93dfdb43f4070cf011da",
       "snapshot_sha256": "b1de065707f2301dd7ec9d9164d117a29f5abd5345d2f4ce7d57cb73fd33b129",
-      "content_type": "application/x-zip-compressed"
+      "content_type": "application/x-zip-compressed",
+      "acquisition": "download"
     },
     {
       "source_id": "rfa",
       "publisher": "South Carolina Revenue and Fiscal Affairs Office",
       "data_url": "https://www.rfa.sc.gov/media/11403",
       "rights_url": "https://rfa.sc.gov/page/privacy-statement-disclaimers",
-      "retrieved_at": "2026-09-07T16:32:25.118697+00:00",
+      "retrieved_at": "2026-09-07T18:48:41.076777+00:00",
       "release": "2025-11-19",
       "source_sha256": "0f8a0e37672f8e9b9c7f412b9573134a1bb43975eb231bfec2c4607a5a5feee9",
-      "snapshot_sha256": "ee981b6e25b57134688d8bbfeb1396b54516115b1e7c3bb5fcabb4b2464f1568",
-      "content_type": "application/pdf"
+      "snapshot_sha256": "c963fccace95689677c1d3d5adf7db9233aa741c283674f654a81600ffe1df91",
+      "content_type": "application/pdf",
+      "acquisition": "download"
+    },
+    {
+      "source_id": "bls",
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "data_url": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+      "rights_url": "https://www.bls.gov/opub/copyright-information.htm",
+      "retrieved_at": "2026-09-07T18:48:41.670065+00:00",
+      "release": "May 2025, release 2025A01, published 2026-05-15",
+      "source_sha256": "4c279f60b2b92cbbf2ca3a972f0f705e88fa785b752a66e6a31200886565a90f",
+      "snapshot_sha256": "e2e29bc77c97b59f54e66ed8733e0d1bb51fa8863f2f0b52f7a2c3a17b673776",
+      "content_type": "application/json",
+      "acquisition": "download"
+    },
+    {
+      "source_id": "naep",
+      "publisher": "National Center for Education Statistics",
+      "data_url": "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx",
+      "rights_url": "https://www.ed.gov/about/ed-overview/required-notices/website-policies/copyright-status-notice",
+      "retrieved_at": "2026-09-07T18:48:44.147963+00:00",
+      "release": "2024 assessment",
+      "source_sha256": "de444e928be690af2c28b4d2ab844b9bae20a7253252b71be2a26de12eb01b5f",
+      "snapshot_sha256": "cc6225f3cafdcfc0e12c3db31727008903dc2b9d3279b7ce568277e41eb0d4cc",
+      "content_type": "application/json",
+      "acquisition": "download"
+    },
+    {
+      "source_id": "nea",
+      "publisher": "National Education Association",
+      "data_url": "https://www.nea.org/sites/default/files/2026-08/2026-rankings-and-estimates-report-august-update.pdf",
+      "rights_url": "https://www.nea.org/terms-use",
+      "retrieved_at": "2026-09-07",
+      "release": "2026-08",
+      "source_sha256": "not-downloaded",
+      "snapshot_sha256": "19b51eff0c76daccba26b4e38b5128d5ac4f158bb919da5eb2b5d1ef8515ceec",
+      "content_type": "text/csv",
+      "acquisition": "manual_fact_verification",
+      "verification_reference": "Table E-6"
+    },
+    {
+      "source_id": "sc_budget",
+      "publisher": "South Carolina General Assembly",
+      "data_url": "https://www.scstatehouse.gov/sess126_2025-2026/appropriations2026/gab5126.php",
+      "rights_url": "https://www.scstatehouse.gov/studentpage/What/disclaim.shtml",
+      "retrieved_at": "2026-09-07",
+      "release": "FY 2026-27, ratified 2026-08-11",
+      "source_sha256": "not-downloaded",
+      "snapshot_sha256": "53379bf3560facc4701b5984a260744e988c977602ad3b39786238c590922ded",
+      "content_type": "text/csv",
+      "acquisition": "manual_fact_verification",
+      "verification_reference": "H. 5126, State Minimum Teacher Salary Schedule"
     }
   ]
 }

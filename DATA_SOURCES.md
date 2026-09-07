@@ -33,6 +33,56 @@ The project uses selected facts from RFA's FY 2026-27 Southeastern Average Teach
 - Permitted in this project: download, factual extraction, calculations, and original visualizations
 - Excluded from Git: the source PDF and substantial copies of its table, chart, or prose
 
+## NEA South Carolina Estimate
+
+The project uses one attributed fact from table E-6 of the August 2026 Rankings and Estimates report: South Carolina's `$67,107` FY 2025–26 estimate. Automated downloading is disabled. The report, table, prose, graphics, and design are not included.
+
+- Landing page: [Educator pay and student spending](https://www.nea.org/resource-library/educator-pay-and-student-spending-how-does-your-state-rank)
+- Report: [August 2026 report](https://www.nea.org/sites/default/files/2026-08/2026-rankings-and-estimates-report-august-update.pdf)
+- Policy: [NEA terms of use](https://www.nea.org/terms-use)
+- Review date: 2026-09-07
+- Public snapshot: `data/source/nea-south-carolina-salary-selected.csv`
+- Permitted in this project: the single attributed fact, project calculations, and an original trend figure
+
+This is a documented limited-factual-use decision. It is not a guarantee of fair use.
+
+## South Carolina Schedule Increase
+
+The project uses the enacted `$2,000` increase to every cell in the FY 2026–27 State Minimum Teacher Salary Schedule. The budget record supplies the scenario input. The final SCDE schedule page is a corroborating link.
+
+- Budget record: [H. 5126, FY 2026–27](https://www.scstatehouse.gov/sess126_2025-2026/appropriations2026/gab5126.php)
+- Final schedules: [SCDE teacher salary schedules](https://ed.sc.gov/finance/financial-data/historical-data/teacher-salary-schedules/)
+- Statehouse policy: [Disclaimer](https://www.scstatehouse.gov/studentpage/What/disclaim.shtml)
+- SCDE policy: [Privacy and legal notice](https://www.ed.sc.gov/privacy-legal/)
+- Review date: 2026-09-07
+- Public snapshot: `data/source/sc-teacher-schedule-increase-selected.csv`
+- Excluded from Git: budget text, schedule files, and source-page design
+
+## BLS Occupational Wages
+
+BLS states that its published material is public domain, except identified third-party photographs and illustrations. The project queries six May 2025 South Carolina teacher-wage series and cites BLS.
+
+- Data: [May 2025 OEWS tables](https://www.bls.gov/oes/tables.htm)
+- API: [BLS Public Data API](https://www.bls.gov/developers/)
+- Rights: [BLS copyright information](https://www.bls.gov/opub/copyright-information.htm)
+- Review date: 2026-09-07
+- Release: May 2025, published May 15, 2026
+- Public snapshot: `data/source/bls-oews-south-carolina-teacher-wages-may-2025.csv`
+- Published measures: annual mean and annual median wage for SOC 25-2021, 25-2022, and 25-2031
+
+## NAEP Results
+
+The project queries aggregate 2024 results from the official NAEP Data Service. It stores 48 state-measure observations for public-school students. No student-level, school-level, or restricted-use data enter the project.
+
+- Data and API documentation: [NAEP Data Service](https://www.nationsreportcard.gov/api_documentation.aspx)
+- Public-data context: [NAEP data available for secondary analysis](https://nces.ed.gov/nationsreportcard/researchcenter/datatools.aspx)
+- Rights notice: [U.S. Department of Education copyright status](https://www.ed.gov/about/ed-overview/required-notices/website-policies/copyright-status-notice)
+- Review date: 2026-09-07
+- Public snapshot: `data/source/naep-2024-southeastern-results.csv`
+- Measures: Grade 4 and Grade 8 mathematics and reading, percent at or above NAEP Proficient
+
+The output identifies point-estimate ranks. It does not claim that all differences are statistically significant.
+
 ## Adding a Source
 
 Complete `LEGAL_POLICY_REVIEW.md` before any request, repository mutation, or publication that involves a new source.

@@ -6,6 +6,8 @@ salary_latest_regional_actual_year = 2024
 salary_estimate_years = [2026, 2027]
 salary_comparison_year = 2025
 salary_rpp_year = 2024
+naep_year = 2024
+bls_oews_year = 2025
 peer_states = [
   "Alabama", "Arkansas", "Florida", "Georgia", "Kentucky", "Louisiana",
   "Mississippi", "North Carolina", "South Carolina", "Tennessee", "Virginia",
@@ -42,14 +44,19 @@ snapshot = "bea-rpp-state-2008-2024.csv"
 [sources.nea]
 publisher = "National Education Association"
 landing_url = "https://www.nea.org/resource-library/educator-pay-and-student-spending-how-does-your-state-rank"
-rights_basis = "No affirmative permission was established for this publication protocol."
+data_url = "https://www.nea.org/sites/default/files/2026-08/2026-rankings-and-estimates-report-august-update.pdf"
+rights_basis = "The public build uses one attributed salary fact from table E-6. It does not download or redistribute the report, reproduce its table, or reuse its prose, graphics, or design. This is a documented limited-factual-use decision, not a guarantee of fair use."
 rights_url = "https://www.nea.org/terms-use"
 download_permitted = false
-factual_extraction_permitted = false
+factual_extraction_permitted = true
 raw_redistribution_permitted = false
-derivative_visualizations_permitted = false
-approved_for_public_build = false
+derivative_visualizations_permitted = true
+approved_for_public_build = true
 reviewed_on = "2026-09-07"
+release = "2026-08"
+snapshot = "nea-south-carolina-salary-selected.csv"
+manual_snapshot = true
+verification_reference = "Table E-6"
 
 [sources.scde]
 publisher = "South Carolina Department of Education"
@@ -62,6 +69,36 @@ raw_redistribution_permitted = false
 derivative_visualizations_permitted = false
 approved_for_public_build = false
 reviewed_on = "2026-09-07"
+
+[sources.scde_salary_schedule]
+publisher = "South Carolina Department of Education"
+landing_url = "https://ed.sc.gov/finance/financial-data/historical-data/teacher-salary-schedules/"
+rights_basis = "The project links to the final salary schedule as corroborating evidence. It does not copy, download, or redistribute the schedule."
+rights_url = "https://www.ed.sc.gov/privacy-legal/"
+download_permitted = false
+factual_extraction_permitted = true
+raw_redistribution_permitted = false
+derivative_visualizations_permitted = false
+approved_for_public_build = true
+reviewed_on = "2026-09-07"
+release = "FY 2026-27"
+
+[sources.sc_budget]
+publisher = "South Carolina General Assembly"
+landing_url = "https://www.scstatehouse.gov/sess126_2025-2026/appropriations2026/gab5126.php"
+data_url = "https://www.scstatehouse.gov/sess126_2025-2026/appropriations2026/gab5126.php"
+rights_basis = "The public build uses one enacted budget fact with attribution. It does not reproduce the budget text or page design."
+rights_url = "https://www.scstatehouse.gov/studentpage/What/disclaim.shtml"
+download_permitted = false
+factual_extraction_permitted = true
+raw_redistribution_permitted = false
+derivative_visualizations_permitted = true
+approved_for_public_build = true
+reviewed_on = "2026-09-07"
+release = "FY 2026-27, ratified 2026-08-11"
+snapshot = "sc-teacher-schedule-increase-selected.csv"
+manual_snapshot = true
+verification_reference = "H. 5126, State Minimum Teacher Salary Schedule"
 
 [sources.rfa]
 publisher = "South Carolina Revenue and Fiscal Affairs Office"
@@ -78,6 +115,38 @@ reviewed_on = "2026-09-07"
 release = "2025-11-19"
 filename = "rfa-teacher-salary-fy2026-27.pdf"
 snapshot = "rfa-teacher-salary-selected.csv"
+
+[sources.bls]
+publisher = "U.S. Bureau of Labor Statistics"
+landing_url = "https://www.bls.gov/oes/tables.htm"
+data_url = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
+rights_basis = "BLS states that its published material is public domain, except for identified third-party images. BLS requests attribution."
+rights_url = "https://www.bls.gov/opub/copyright-information.htm"
+download_permitted = true
+factual_extraction_permitted = true
+raw_redistribution_permitted = true
+derivative_visualizations_permitted = true
+approved_for_public_build = true
+reviewed_on = "2026-09-07"
+release = "May 2025, release 2025A01, published 2026-05-15"
+filename = "bls-oews-south-carolina-may-2025.json"
+snapshot = "bls-oews-south-carolina-teacher-wages-may-2025.csv"
+
+[sources.naep]
+publisher = "National Center for Education Statistics"
+landing_url = "https://www.nationsreportcard.gov/api_documentation.aspx"
+data_url = "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx"
+rights_basis = "The project uses public, aggregate state results from the official NAEP Data Service. It does not use restricted student- or school-level data."
+rights_url = "https://www.ed.gov/about/ed-overview/required-notices/website-policies/copyright-status-notice"
+download_permitted = true
+factual_extraction_permitted = true
+raw_redistribution_permitted = false
+derivative_visualizations_permitted = true
+approved_for_public_build = true
+reviewed_on = "2026-09-07"
+release = "2024 assessment"
+filename = "naep-2024-southeastern-results.json"
+snapshot = "naep-2024-southeastern-results.csv"
 
 [sources.dropbox]
 publisher = "External contributors through Dropbox"
