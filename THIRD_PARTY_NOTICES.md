@@ -1,4 +1,4 @@
-# Third-party notices
+# Third-Party Notices
 
 The MIT License applies to original software in this repository.
 
@@ -23,7 +23,7 @@ The salary facts remain attributed to RFA. The repository's MIT License applies 
 
 - [RFA teacher salary projections](https://www.rfa.sc.gov/resources/education/teacher-salary-projections)
 - [RFA FY 2026-27 survey](https://www.rfa.sc.gov/media/11403)
-- [RFA privacy and disclaimers](https://www.rfa.sc.gov/privacy-and-disclaimers)
+- [RFA privacy statement and disclaimers](https://rfa.sc.gov/page/privacy-statement-disclaimers)
 
 ## Dependencies
 

@@ -26,8 +26,8 @@ OUTPUTS = [
     "docs/assets/figures/south-carolina-peer-rpp.png",
     "docs/assets/figures/salary-trends.svg",
     "docs/assets/figures/salary-trends.png",
-    "docs/assets/figures/peer-salary-estimates.svg",
-    "docs/assets/figures/peer-salary-estimates.png",
+    "docs/assets/figures/nominal-salary-comparison.svg",
+    "docs/assets/figures/nominal-salary-comparison.png",
     "docs/assets/figures/adjusted-salary-comparison.svg",
     "docs/assets/figures/adjusted-salary-comparison.png",
 ]
@@ -117,11 +117,12 @@ def build(root: Path, destination: Path | None = None) -> list[Path]:
         float_format="%.3f",
     )
 
-    estimate_years = {int(value) for value in config["analysis"]["salary_estimate_years"]}
-    salary_estimates = frame[
+    comparison_year = int(config["analysis"]["salary_comparison_year"])
+    comparison_geographies = salary_peers | {"South Carolina"}
+    salary_values = frame[
         (frame["metric"] == RFA_METRIC)
-        & (frame["geography"].isin(salary_peers))
-        & (frame["year"].isin(estimate_years))
+        & (frame["geography"].isin(comparison_geographies))
+        & (frame["year"] == comparison_year)
     ][
         [
             "geography",
@@ -137,12 +138,12 @@ def build(root: Path, destination: Path | None = None) -> list[Path]:
     rpp = frame[
         (frame["metric"] == "regional_price_parity_all_items")
         & (frame["year"] == rpp_year)
-        & (frame["geography"].isin(salary_peers))
+        & (frame["geography"].isin(comparison_geographies))
     ][["geography", "value", "source_release"]].rename(
         columns={"value": "rpp", "source_release": "rpp_release"}
     )
-    salary_comparison = salary_estimates.merge(rpp, on="geography", validate="many_to_one")
-    expected_rows = len(salary_peers) * len(estimate_years)
+    salary_comparison = salary_values.merge(rpp, on="geography", validate="one_to_one")
+    expected_rows = len(comparison_geographies)
     if len(salary_comparison) != expected_rows:
         raise ValueError("Teacher salary and RPP peer coverage is incomplete.")
     salary_comparison["rpp_year"] = rpp_year

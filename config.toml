@@ -4,6 +4,7 @@ trend_start_year = 2014
 salary_start_year = 2020
 salary_latest_regional_actual_year = 2024
 salary_estimate_years = [2026, 2027]
+salary_comparison_year = 2025
 salary_rpp_year = 2024
 peer_states = [
   "Alabama", "Arkansas", "Florida", "Georgia", "Kentucky", "Louisiana",
@@ -67,7 +68,7 @@ publisher = "South Carolina Revenue and Fiscal Affairs Office"
 landing_url = "https://www.rfa.sc.gov/resources/education/teacher-salary-projections"
 data_url = "https://www.rfa.sc.gov/media/11403"
 rights_basis = "The public build uses selected factual values with attribution. It does not reproduce the source PDF, table, chart, or prose."
-rights_url = "https://www.rfa.sc.gov/privacy-and-disclaimers"
+rights_url = "https://rfa.sc.gov/page/privacy-statement-disclaimers"
 download_permitted = true
 factual_extraction_permitted = true
 raw_redistribution_permitted = false

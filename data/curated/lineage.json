@@ -12,8 +12,8 @@
       "source_id": "rfa",
       "source_release": "2025-11-19",
       "source_sha256": "0f8a0e37672f8e9b9c7f412b9573134a1bb43975eb231bfec2c4607a5a5feee9",
-      "snapshot_sha256": "3f0cf662455d3c877e781aa9adec5164422c5b6fb6f4cb5ee1057ee3fac8c216",
-      "rights_url": "https://www.rfa.sc.gov/privacy-and-disclaimers",
+      "snapshot_sha256": "ee981b6e25b57134688d8bbfeb1396b54516115b1e7c3bb5fcabb4b2464f1568",
+      "rights_url": "https://rfa.sc.gov/page/privacy-statement-disclaimers",
       "approved_for_public_build": true
     }
   ]
