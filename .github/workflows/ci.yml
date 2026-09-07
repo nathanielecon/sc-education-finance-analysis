@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --frozen --extra dev
+      - run: uv run ruff check .
+      - run: uv run mypy
+      - run: uv run pytest
+      - name: Validate dependency license inventory
+        run: uv run pip-licenses --format=markdown
+      - name: Rebuild committed outputs without live network requests
+        run: uv run sc-education-finance check
+      - name: Validate Markdown links and assets
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --offline --no-progress README.md DATA_SOURCES.md SOURCE_EXCLUSIONS.md THIRD_PARTY_NOTICES.md LEGAL_POLICY_REVIEW.md docs/findings.md
+
+  secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

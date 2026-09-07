@@ -1,0 +1,8 @@
+*.md text eol=lf
+*.py text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.svg text eol=lf
+data/curated/*.csv text eol=lf
+data/source/*.csv text eol=lf

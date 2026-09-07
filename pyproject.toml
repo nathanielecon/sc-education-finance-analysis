@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sc-education-finance"
+version = "1.0.0"
+description = "Rights-aware Python pipeline for regional price parity analysis"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Nathaniel Hope" }]
+dependencies = [
+  "beautifulsoup4>=4.12",
+  "matplotlib>=3.9",
+  "openpyxl>=3.1",
+  "pandas>=2.2",
+  "pillow>=11.0",
+  "pypdf>=5.0",
+  "requests>=2.32",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.15",
+  "pandas-stubs>=2.2",
+  "pip-audit>=2.9",
+  "pip-licenses>=5.0",
+  "pytest>=8.3",
+  "reportlab>=4.3",
+  "ruff>=0.11",
+  "types-requests>=2.32",
+]
+
+[project.scripts]
+sc-education-finance = "sc_education_finance.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sc_education_finance"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = []
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+packages = ["sc_education_finance"]
+follow_imports = "skip"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
